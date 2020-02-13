@@ -1,0 +1,36 @@
+Package: NAguideR
+Type: Package
+Title: NAguideR: performing and prioritizing missing value imputations for data independent acquisition analyses
+Version: 0.1.0
+Author: Shisheng Wang
+Maintainer: Shisheng Wang <wssdandan2009@outlook.com>
+Description: NAguideR integrates up to 20 common missing value imputation methods (described in Table S1) and provides two categories of evaluation criteria (four classic computational criteria and four common knowledge-based proteomics criteria) to assess the imputation performance of various methods. Here we present the detailed introduction and operation of NAguideR, users can follow this manuscript to analyze their own data freely and conveniently.
+Imports:
+  shiny,
+  shinyBS,
+  shinyjs,
+  shinyWidgets, 
+  DT, 
+  gdata, 
+  ggplot2, 
+  ggsci, 
+  openxlsx, 
+  data.table, 
+  DT, 
+  tidyverse, 
+  ggExtra, 
+  cowplot, 
+  Amelia, 
+  e1071, 
+  impute, 
+  SeqKnn, 
+  pcaMethods, 
+  norm, 
+  imputeLCMD, 
+  VIM, 
+  rrcovNA, 
+  mice, 
+  missForest
+License: Free but not for commercial use.
+Encoding: UTF-8
+LazyData: true

@@ -1,0 +1,46 @@
+div.busy { 
+  position:absolute;
+  top: 40%;
+  left: 35%;
+  margin-top: -100px;
+  margin-left: -50px;
+  display:none;
+  background: rgba(230, 230, 230, .8);
+  text-align: center;
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-bottom: 40px;
+  padding-right: 30px;
+  border-radius: 5px;
+  z-index:5;
+}
+
+ul.nav-tabs > li {
+    float:none;
+    display:inline-block;
+    zoom:1;
+}
+
+ul.nav-tabs {
+    text-align:center;
+}
+
+#subnav {
+  text-align:left;
+}
+
+#helpmanualid>li.active>a, #helpmanualid>li.active>a:focus, #helpmanualid>li.active>a:hover {
+    color: whitesmoke;
+    background-color: lightseagreen;
+}
+#helpmanualid>li>a {
+    color: black;
+    font-size: 16px;
+}
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 25px;
+    line-height: 20px;
+}
