@@ -1,4 +1,4 @@
-# NAguideR<img src="NAguideR_logo.jpg" align="right" height="200" width="200"/>
+# NAguideR<img src="NAguideR_logo.jpg" align="right" height="140" width="200"/>
 NAguideR: performing and prioritizing missing value imputations for data independent acquisition analyses
 
 ## Brief Description
