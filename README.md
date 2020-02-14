@@ -7,7 +7,7 @@ NAguideR: performing and prioritizing missing value imputations for data indepen
 ## Software Manual
 A detailed introduction of this software can be found in [NAguideR_Manual.pdf](https://github.com/wangshisheng/NAguideR/blob/master/NAguideR_Manual.pdf) file.
 
-## Preparation
+## Preparation for local installation
 This tool is developed with R, so if you want to run it locally, you may do some preparatory work:  
 **1. Install R.** You can download R from here: [https://www.r-project.org/](https://www.r-project.org/).  
 **2. Install RStudio.** (Recommendatory but not necessary). You can download RStudio from here: [https://www.rstudio.com/](https://www.rstudio.com/).  
