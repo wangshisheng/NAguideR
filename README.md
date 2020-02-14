@@ -32,7 +32,9 @@ if(!require(NAguideR)) devtools::install_github("wangshisheng/NAguideR")
 library(NAguideR)
 NAguideR_app()
 ```
+
 Then NAguideR will be started as below:
+
 <img src="homepage.png" align="right" height="672" width="500"/>
 
 
