@@ -1,4 +1,4 @@
-#' Runs the motifeR Shiny web application.
+#' Run the motifeR Shiny web application locally.
 #' @export
 NAguideR_app <- function() {
   shiny::runApp(system.file('NAguideRapp', package='NAguideR'),
