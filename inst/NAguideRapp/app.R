@@ -10,6 +10,7 @@ library(DT)
 library(tidyverse)
 library(ggExtra)
 library(cowplot)
+options(warn=-1)
 colpalettes<-unique(c(pal_npg("nrc")(10),pal_aaas("default")(10),pal_nejm("default")(8),pal_lancet("lanonc")(9),
                       pal_jama("default")(7),pal_jco("default")(10),pal_ucscgb("default")(26),pal_d3("category10")(10),
                       pal_locuszoom("default")(7),pal_igv("default")(51),
@@ -25,11 +26,11 @@ ui<-renderUI(
       div(
         HTML(
           "<div style='text-align:center;margin-top:5px;margin-right:0px'>
-          <a href='#' target=''><img src='imputeRti.png' width='200px'>
-          </a>
-          </div>"
+            <a href='#' target=''><img src='imputeRti.png' width='200px'>
+            </a>
+            </div>"
         )
-        )
+      )
       #column(6,div(
       #  HTML(
       #    "<div style='text-align:right;margin-top:20px;margin-right:0px'>
@@ -46,31 +47,31 @@ ui<-renderUI(
       #    </div>"
       #  )
       #  ))
-        ),
+    ),
     tagList(
       tags$head(
         tags$link(rel="stylesheet", type="text/css",href="busystyle.css"),
         tags$script(type="text/javascript", src = "busy.js"),
         #tags$style(type="text/css","#methodids{margin-left:2%;margin-right:2%}"),
         tags$style(type="text/css", "
-                   #loadmessage {
-                   position: fixed;
-                   top: 0px;
-                   left: 0px;
-                   width: 100%;
-                   height:100%;
-                   padding: 250px 0px 5px 0px;
-                   text-align: center;
-                   font-weight: bold;
-                   font-size: 100px;
-                   color: #000000;
-                   background-color: #D6D9E4;
-                   opacity:0.6;
-                   z-index: 105;
-                   }
-                   "),
+                           #loadmessage {
+                     position: fixed;
+                     top: 0px;
+                     left: 0px;
+                     width: 100%;
+                     height:100%;
+                     padding: 250px 0px 5px 0px;
+                     text-align: center;
+                     font-weight: bold;
+                     font-size: 100px;
+                     color: #000000;
+                     background-color: #D6D9E4;
+                     opacity:0.6;
+                     z-index: 105;
+                     }
+                     "),
         tags$script('
-                    var dimension = [0, 0];
+                            var dimension = [0, 0];
                     $(document).on("shiny:connected", function(e) {
                     dimension[0] = window.innerWidth;
                     dimension[1] = window.innerHeight;
@@ -84,66 +85,66 @@ ui<-renderUI(
                     '),
         tags$style(type="text/css", "
                    #tooltip {
-                   position: absolute;
-                   border: 1px solid #333;
-                   background: #fff;
-                   padding: 1px;
-                   color: #333;
-                   display: block;
-                   width:300px;
-                   z-index:5;
-                   }
+			position: absolute;
+			border: 1px solid #333;
+			background: #fff;
+			padding: 1px;
+			color: #333;
+      display: block;
+      width:300px;
+      z-index:5;
+		}
                    "),#F5F5DC
         tags$style(type="text/css", "
                    #tooltip2 {
-                   position: absolute;
-                   border: 1px solid #333;
-                   background: #fff;
-                   padding: 1px;
-                   color: #333;
-                   display: block;
-                   width:300px;
-                   z-index:5;
-                   }
+			position: absolute;
+			border: 1px solid #333;
+			background: #fff;
+			padding: 1px;
+			color: #333;
+      display: block;
+      width:300px;
+      z-index:5;
+		}
                    "),
         tags$style(type="text/css", "
                    #tooltip3 {
-                   position: absolute;
-                   border: 1px solid #333;
-                   background: #fff;
-                   padding: 1px;
-                   color: #333;
-                   display: block;
-                   width:300px;
-                   z-index:5;
-                   }
+			position: absolute;
+			border: 1px solid #333;
+			background: #fff;
+			padding: 1px;
+			color: #333;
+      display: block;
+      width:300px;
+      z-index:5;
+		}
                    "),
         tags$style(type="text/css", "
                    #tooltip4 {
-                   position: absolute;
-                   border: 1px solid #333;
-                   background: #fff;
-                   padding: 1px;
-                   color: #333;
-                   display: block;
-                   width:300px;
-                   z-index:5;
-                   }
+			position: absolute;
+			border: 1px solid #333;
+			background: #fff;
+			padding: 1px;
+			color: #333;
+      display: block;
+      width:300px;
+      z-index:5;
+		}
                    "),
         tags$style(type="text/css", "
                    #tooltipx5 {
-                   position: absolute;
-                   border: 1px solid #333;
-                   background: #fff;
-                   padding: 1px;
-                   color: #333;
-                   display: block;
-                   width:300px;
-                   z-index:5;
-                   }
+			position: absolute;
+			border: 1px solid #333;
+			background: #fff;
+			padding: 1px;
+			color: #333;
+      display: block;
+      width:300px;
+      z-index:5;
+		}
                    ")
       )
-        ),
+    ),
     conditionalPanel(condition="$('html').hasClass('shiny-busy')",
                      tags$div(h2(strong("Calculating......")),img(src="rmd_loader.gif"),id="loadmessage")),
     tabsetPanel(
@@ -233,7 +234,7 @@ ui<-renderUI(
               tags$hr(style="border-color: grey;"),
               downloadButton("loaddatadownload2","Download example sample group data",style="color: #fff; background-color: #6495ED; border-color: #6495ED")
             )
-            ),
+          ),
           mainPanel(
             width = 9,
             hr(),
@@ -244,7 +245,7 @@ ui<-renderUI(
             h4("2. Samples information data："),
             dataTableOutput("samplesdata")
           )
-            ),
+        ),
         icon = icon("upload")
       ),
       tabPanel(
@@ -258,7 +259,8 @@ ui<-renderUI(
                 id = 'span2',
                 `data-toggle` = "tooltip2",
                 title = '
-                NA here means missing value. In this part, These proteins/peptides with excessively high proportion of NA and large coefficient of variation (CV) will be removed. Therefore, this step is also called "Data quality control".
+                NA here means missing value. In this part, These proteins/peptides with excessively high proportion of NA and large coefficient of variation (CV) will be removed.
+                You can click "Input data check" part and check your input data quality. Therefore, this step is also called "Data quality control".
                 ',
                 tags$span(class = "glyphicon glyphicon-question-sign")
               )
@@ -291,7 +293,7 @@ ui<-renderUI(
                       placement = "right",options = list(container = "body")),
             tags$hr(style="border-color: grey;"),
             numericInput("preheight",h5("Height for figure:"),value = 900)
-            ),
+          ),
           mainPanel(
             width = 9,
             tabsetPanel(
@@ -370,25 +372,31 @@ ui<-renderUI(
                 #  downloadButton("datahasnadl","Download"),
                 #  dataTableOutput("datahasna")
                 #)
+              ),
+              tabPanel(
+                "Input data check",
+                hr(),
+                uiOutput("inputdatacheck1"),
+                uiOutput("inputdatacheck2")
               )
             )
           )
-            ),
-        icon = icon("binoculars")
         ),
+        icon = icon("binoculars")
+      ),
       tabPanel(
         "Methods",
         hr(),
         div(
-          style="text-align:center",
-          h4(
-            "Step 3: Missing value imputation. Please select the imputation methods you want (by default, fast methods are chosen), then click the 'Calculate' button.",
+          style="text-align:center;margin-left:200px;margin-right:200px",
+          h3(
+            "Step 3: Missing value imputation. All methods have been classified based on their algorithm, please select the imputation methods you want (by default, fast methods are chosen in each category), then click the 'Calculate' button.",
             tags$span(
               id = 'span3',
               `data-toggle` = "tooltip3",
               title = '
-              In this part, users should select the imputation methods first. With regard to the running time, we set these fast methods chosen by default. Detailed instruction of each methods can be found in the references below or in the "Help" part.
-              ',
+                In this part, users should select the imputation methods first. With regard to the running time, we set these fast methods chosen by default. Detailed instruction of each methods can be found in the references below or in the "Help" part.
+                ',
               tags$span(class = "glyphicon glyphicon-question-sign")
             )
           ),
@@ -402,7 +410,7 @@ ui<-renderUI(
           #  )
           #)
           #tags$hr(style="border-color: grey;"),
-          ),
+        ),
         #tags$hr(style="border-color: grey;"),
         hr(),
         mainPanel(
@@ -411,14 +419,14 @@ ui<-renderUI(
           width = 12,
           fixedRow(
             column(
-              width = 6,
+              width = 4,
               panel(
                 "",
-                heading = "A. Fast methods",
-                status = "primary",
+                heading = "A. Single value approaches",
+                status = "info",
                 fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("zeromethodif", "Using zero method or not?",TRUE),
@@ -428,7 +436,7 @@ ui<-renderUI(
                     )
                   ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("minimummethodif", "Using minimum method or not?",TRUE),
@@ -436,9 +444,11 @@ ui<-renderUI(
                       status = "success",
                       footer = a(href="https://doi.org/10.1038/s41586-019-0987-8",h6("DOI: 10.1038/s41586-019-0987-8"),target="_blank")
                     )
-                  ),
+                  )
+                ),
+                fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("colmedianif", "Using colmedian method or not?",TRUE),
@@ -446,100 +456,100 @@ ui<-renderUI(
                       status = "success",
                       footer = a(href="https://CRAN.R-project.org/package=e1071",h6("Package: e1071"),target="_blank")
                     )
-                  )
-                ),
-                fixedRow(
+                  ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("objectmedianif", "Using objectmedian method or not?",TRUE),
-                      heading = "Method 4: Object median (objectmedian)",
+                      checkboxInput("rowmedianif", "Using row median method or not?",TRUE),
+                      heading = "Method 4: Row median (rowmedian)",
                       status = "success",
                       footer = a(href="https://CRAN.R-project.org/package=e1071",h6("Package: e1071"),target="_blank")
                     )
-                  ),
+                  )
+                ),
+                fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("svdmethodif", "Using svd method or not?",TRUE),
-                      heading = "Method 5: Singular value decomposition (svd)",
+                      checkboxInput("mindetif", "Using mindet method or not?",TRUE),
+                      heading = "Method 5: Deterministic minimal value (mindet)",
                       status = "success",
-                      footer = a(href="https://doi.org/10.1093/bioinformatics/17.6.520",h6("DOI: 10.1093/bioinformatics/17.6.520"),target="_blank")
+                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("KNNmethodif", "Using knn method or not?",TRUE),
-                      heading = "Method 6: K-nearest neighbor (knn)",
+                      checkboxInput("minprobif", "Using minprob method or not?",TRUE),
+                      heading = "Method 6: Stochastic minimal value (minprob)",
                       status = "success",
-                      footer = a(href="https://doi.org/10.1093/bioinformatics/17.6.520",h6("DOI: 10.1093/bioinformatics/17.6.520"),target="_blank")
+                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
                     )
                   )
                 ),
                 fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("llsif", "Using lls method or not?",TRUE),
-                      heading = "Method 7: Local least squares (lls)",
+                      checkboxInput("PIif", "Using perseus imputation method or not?",TRUE),
+                      heading = "Method 7: Perseus imputation (PI)",
                       status = "success",
-                      footer = a(href="https://doi.org/10.1093/bioinformatics/bth499",h6("DOI: 10.1093/bioinformatics/bth499"),target="_blank")
+                      footer = a(href="https://doi.org/10.1038/nmeth.3901",h6("DOI:10.1038/nMeth.3901"),target="_blank")
+                    )
+                  )
+                )
+              )
+            ),
+            column(
+              width = 4,
+              panel(
+                "",
+                heading = "B. Global structure approaches",
+                status = "warning",
+                fixedRow(
+                  column(
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("svdmethodif", "Using svd method or not?",TRUE),
+                      heading = "Method 8: Singular value decomposition (svd)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.1093/bioinformatics/17.6.520",h6("DOI: 10.1093/bioinformatics/17.6.520"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("mlif", "Using ml method or not?",TRUE),
-                      heading = "Method 8: Maximum likelihood (ml)",
+                      checkboxInput("mleif", "Using mle method or not?",TRUE),
+                      heading = "Method 9: Maximum likelihood estimation (mle)",
                       status = "success",
                       #footer = a(href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x",h6("DOI: 10.1111/j.2517-6161.1977.tb01600.x"),target="_blank")
                       footer = a(href="https://CRAN.R-project.org/package=norm",h6("Package: norm"),target="_blank")
                     )
-                  ),
-                  column(
-                    4,
-                    panel(
-                      "",
-                      checkboxInput("minprobif", "Using minprob method or not?",TRUE),
-                      heading = "Method 9: Stochastic minimal value (minprob)",
-                      status = "success",
-                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
-                    )
                   )
                 ),
                 fixedRow(
                   column(
-                    4,
-                    panel(
-                      "",
-                      checkboxInput("mindetif", "Using mindet method or not?",TRUE),
-                      heading = "Method 10: Deterministic minimal value (mindet)",
-                      status = "success",
-                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
-                    )
-                  ),
-                  column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("impseqif", "Using impseq method or not?",TRUE),
-                      heading = "Method 11: Sequential imputation (impseq)",
+                      heading = "Method 10: Sequential imputation (impseq)",
                       status = "success",
                       footer = a(href="https://doi.org/10.1016/j.compbiolchem.2007.07.001",h6("DOI: 10.1016/j.compbiolchem.2007.07.001"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("impseqrobif", "Using impseqrob method or not?",TRUE),
-                      heading = "Method 12: Robust sequential imputation (impseqrob)",
+                      heading = "Method 11: Robust sequential imputation (impseqrob)",
                       status = "success",
                       footer = a(href="https://doi.org/10.1016/j.compbiolchem.2008.07.019",h6("DOI: 10.1016/j.compbiolchem.2008.07.019"),target="_blank")
                     )
@@ -547,95 +557,143 @@ ui<-renderUI(
                 ),
                 fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("micenormif", "Using mice-norm method or not?",TRUE),
-                      heading = "Method 13: Multiple imputation bayesian linear regression (mice-norm)",
+                      checkboxInput("bpcaif", "Using bpca method or not?",FALSE),
+                      heading = "Method 12: Bayesian principal component analysis (bpca)",
                       status = "success",
-                      footer = a(href="https://doi.org/10.18637/jss.v045.i03",h6("DOI: 10.18637/jss.v045.i03"),target="_blank")
-                    )
-                  ),
-                  column(
-                    4,
-                    panel(
-                      "",
-                      checkboxInput("QRILCif", "Using qr method or not?",TRUE),
-                      heading = "Method 14: Quantile regression (qr)",
-                      status = "success",
-                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
-                    )
-                  ),
-                  column(
-                    4,
-                    panel(
-                      "",
-                      checkboxInput("seqknnif", "Using seq-knn method or not?",TRUE),
-                      heading = "Method 15: Sequential knn (seq-knn)",
-                      status = "success",
-                      footer = a(href="https://doi.org/10.1186/1471-2105-5-160",h6("DOI: 10.1186/1471-2105-5-160"),target="_blank")
+                      footer = a(href="https://doi.org/10.1093/bioinformatics/btg287",h6("DOI: 10.1093/bioinformatics/btg287"),target="_blank")
                     )
                   )
                 )
               )
             ),
             column(
-              width = 6,
+              width = 4,
               panel(
                 "",
-                heading = "B. Slow methods",
-                status = "warning",
+                heading = "C. Local similarity approaches",
+                status = "danger",
                 fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("bpcaif", "Using bpca method or not?",FALSE),
-                      heading = "Method 16: Bayesian principal component analysis (bpca)",
-                      status = "info",
-                      footer = a(href="https://doi.org/10.1093/bioinformatics/btg287",h6("DOI: 10.1093/bioinformatics/btg287"),target="_blank")
+                      checkboxInput("KNNmethodif", "Using knn method or not?",TRUE),
+                      heading = "Method 13: K-nearest neighbor (knn)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.1093/bioinformatics/17.6.520",h6("DOI: 10.1093/bioinformatics/17.6.520"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("seqknnif", "Using seq-knn method or not?",TRUE),
+                      heading = "Method 14: Sequential knn (seq-knn)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.1186/1471-2105-5-160",h6("DOI: 10.1186/1471-2105-5-160"),target="_blank")
+                    )
+                  )
+                ),
+                fixedRow(
+                  column(
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("QRILCif", "Using qr method or not?",TRUE),
+                      heading = "Method 15: Quantile regression (qr)",
+                      status = "success",
+                      footer = a(href="https://CRAN.R-project.org/package=imputeLCMD",h6("Package: imputeLCMD"),target="_blank")
+                    )
+                  ),
+                  column(
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("llsif", "Using lls method or not?",TRUE),
+                      heading = "Method 16: Local least squares (lls)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.1093/bioinformatics/bth499",h6("DOI: 10.1093/bioinformatics/bth499"),target="_blank")
+                    )
+                  )
+                ),
+                fixedRow(
+                  column(
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("GRRif", "Using GRR method or not?",TRUE),
+                      heading = "Method 17: Glmnet Ridge Regression (GRR)",
+                      status = "success",
+                      footer = a(href="https://github.com/WangLab-MSSM/DreamAI",h6("Package: DreamAI"),target="_blank")
+                    )
+                  ),
+                  column(
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("micenormif", "Using mice-norm method or not?",TRUE),
+                      heading = "Method 18: Multiple imputation bayesian linear regression (mice-norm)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.18637/jss.v045.i03",h6("DOI: 10.18637/jss.v045.i03"),target="_blank")
+                    )
+                  )
+                ),
+                fixedRow(
+                  column(
+                    6,
                     panel(
                       "",
                       checkboxInput("trknnif", "Using trknn method or not?",FALSE),
-                      heading = "Method 17: Truncation knn (trknn)",
-                      status = "info",
+                      heading = "Method 19: Truncation knn (trknn)",
+                      status = "success",
                       footer = a(href="https://doi.org/10.1186/s12859-017-1547-6",h6("DOI: 10.1186/s12859-017-1547-6"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
                     panel(
                       "",
                       checkboxInput("irmif", "Using irm method or not?",FALSE),
-                      heading = "Method 18: Iterative robust model (irm)",
-                      status = "info",
+                      heading = "Method 20: Iterative robust model (irm)",
+                      status = "success",
                       footer = a(href="https://doi.org/10.18637/jss.v074.i07",h6("DOI: 10.18637/jss.v074.i07"),target="_blank")
                     )
                   )
                 ),
                 fixedRow(
                   column(
-                    4,
+                    6,
                     panel(
                       "",
-                      checkboxInput("micecartif", "Using mice-cart method or not?",FALSE),
-                      heading = "Method 19: Multiple imputation classification and regression trees (mice-cart)",
-                      status = "info",
-                      footer = a(href="https://doi.org/10.18637/jss.v045.i03",h6("DOI: 10.18637/jss.v045.i03"),target="_blank")
+                      checkboxInput("GMSif", "Using GMS method or not?",FALSE),
+                      heading = "Method 21: Generalized Mass Spectrum (GMS)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.1093/bioinformatics/btz488",h6("DOI: 10.1093/bioinformatics/btz488"),target="_blank")
                     )
                   ),
                   column(
-                    4,
+                    6,
+                    panel(
+                      "",
+                      checkboxInput("micecartif", "Using mice-cart method or not?",FALSE),
+                      heading = "Method 22: Multiple imputation classification and regression trees (mice-cart)",
+                      status = "success",
+                      footer = a(href="https://doi.org/10.18637/jss.v045.i03",h6("DOI: 10.18637/jss.v045.i03"),target="_blank")
+                    )
+                  )
+                ),
+                fixedRow(
+                  column(
+                    6,
                     panel(
                       "",
                       checkboxInput("RFif", "Using rf method or not?",FALSE),
                       numericInput("rfntrees",h5("Number of trees:"),value = 20),
-                      heading = "Method 20: Random forest model (rf)",
-                      status = "info",
+                      heading = "Method 23: Random forest model (rf)",
+                      status = "success",
                       footer = a(href="https://doi.org/10.1093/bioinformatics/btr597",h6("DOI: 10.1093/bioinformatics/btr597"),target="_blank")
                     )
                   )
@@ -645,7 +703,7 @@ ui<-renderUI(
           )
         ),
         icon = icon("cogs")
-          ),
+      ),
       tabPanel(
         "Results and Assessments",
         sidebarLayout(
@@ -677,17 +735,32 @@ ui<-renderUI(
             uiOutput(
               "imputaionIIresui"
             ),
-            #hr(),
-            #h4("2. Parameters for 'Criteria'"),
-            #checkboxInput("rationaselectif","2.1. Change ratio of complete data as NA or not?",FALSE),
-            #conditionalPanel(
-            #  condition = "input.rationaselectif==true",
-            #  numericInput("rationaselect",h5("Ratio:"),value = 0.4)
-            #),
+            hr(),
+            h4("2. Parameters for 'Criteria'"),
+            checkboxInput("customclassiccriteriaif","2.1. Customize the classic criteria or not?",FALSE),
+            bsTooltip("customclassiccriteriaif",'Here users can customize the classic criteria and set the weighting of different preset criteria for specific experimental design and aims. By default, all classic criteria are selected with same weightings.',
+                      placement = "right",options = list(container = "body")),
+            conditionalPanel(
+              condition = "input.customclassiccriteriaif==true",
+              selectInput("classiccriteriaxuabze",h5("2.1.1. Please select the criterion/criteria you want:"),choices = c("NRMSE","SOR","ACC_OI","PSS"),selected = c("NRMSE","SOR","ACC_OI","PSS"),multiple = TRUE),
+              textInput("classiccriteriaweight",h5("2.1.2. Please set the weighting for each criterion you select:"),value = "1;1;1;1"),
+              bsTooltip("classiccriteriaweight",'Please note, a. the numbers of the preset criteria and weights should be equal, which means if you select three criteria, you should type in three weightings; b. the weightings should be separated by semicolons.',
+                        placement = "right",options = list(container = "body"))
+            ),
+            checkboxInput("customproteomiccriteriaif","2.2. Customize the proteomic criteria or not?",FALSE),
+            bsTooltip("customproteomiccriteriaif",'Here users can customize the proteomic criteria and set the weighting of different preset criteria for specific experimental design and aims. By default, all proteomic criteria are selected with same weightings.',
+                      placement = "right",options = list(container = "body")),
+            conditionalPanel(
+              condition = "input.customproteomiccriteriaif==true",
+              selectInput("proteomiccriteriaxuabze",h5("2.2.1. Please select the criterion/criteria you want:"),choices = c("Charge","PepProt","CORUM","PPI"),selected = c("Charge","PepProt","CORUM","PPI"),multiple = TRUE),
+              textInput("proteomiccriteriaweight",h5("2.2.2. Please set the weighting for each criterion you select:"),value = "1;1;1;1"),
+              bsTooltip("proteomiccriteriaweight",'Please note, a. the numbers of the preset criteria and weights should be equal, which means if you select three criteria, you should type in three weightings; b. the weightings should be separated by semicolons.',
+                        placement = "right",options = list(container = "body"))
+            ),
             #uiOutput("suijidataresultsui"),
             tags$hr(style="border-color: grey;"),
             numericInput("pinjiafigheight",h5("Figure height:"),value = 800)
-            ),
+          ),
           mainPanel(
             width = 9,
             tabsetPanel(
@@ -931,12 +1004,21 @@ ui<-renderUI(
                 )
                 #conditionalPanel()
                 #condition = "input.imputationxuanzepro==1",
+              ),
+              tabPanel(
+                "Final check",
+                hr(),
+                #actionButton("mcsbtn_imputationpro","Calculate",icon("paper-plane"),
+                #             style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
+                #tags$hr(style="border-color: grey;"),
+                uiOutput("finalcheck1"),
+                uiOutput("finalcheck2")
               )
             )
           )
-            ),
-        icon = icon("table")
         ),
+        icon = icon("table")
+      ),
       tabPanel(
         "Help",
         navlistPanel(
@@ -977,30 +1059,31 @@ ui<-renderUI(
                 a(href='#',
                   img(src='FigureS2app.png',height=1000))),
             icon = icon("dashboard")
-            ),
+          ),
           tabPanel(
             "2. User manual",
             div(style="text-align:left;margin-top:15px;font-size:140%;",HTML("<b>2.1 Input data preparation</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("NAguideR supports four basic file formats (.csv, .txt, .xlsx, .xls). Before analysis, users should prepare two required data: (1) Proteomics expression data and (2) Sample information data.
-                   The data required here could be readily generated based on results of several popular tools such as <a href='https://www.maxquant.org/' target='_blank'>MaxQuant</a>,
-                   <a href='http://www.bioinfor.com/peaks-studio/' target='_blank'>PEAKS</a>, <a href='https://biognosys.com/shop/spectronaut' target='_blank'>Spectronaut</a>, and so on. Then
-                   can upload the two data into NAguideR with right formats respectively and start subsequent analysis.")
-              ),
+              The data required here could be readily generated based on results of several popular tools such as <a href='https://www.maxquant.org/' target='_blank'>MaxQuant</a>,
+              <a href='http://www.bioinfor.com/peaks-studio/' target='_blank'>PEAKS</a>, <a href='https://biognosys.com/shop/spectronaut' target='_blank'>Spectronaut</a>, and so on. Then
+              can upload the two data into NAguideR with right formats respectively and start subsequent analysis.")
+            ),
             div(style="text-align:left;margin-top:10px;font-size:130%;",HTML("<b>2.1.1 Proteomics expression data</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              "There are four types of proteomics expression data supported in NAguideR, among which the main differences are the first few columns."
+              "There are four types of proteomics expression data supported in NAguideR ('Peptides+Charges+Proteins', 'Peptides+Charges', 'Peptides+Proteins', 'Proteins'), among which the main differences are the first few columns.
+              In addition, users may upload other kinds of omics data (i.e. Genomics, Metabolomics), they can choose the fifth type ('Others'), please note, the fifth type can not obtain the results based on those protomic criteria."
             ),
             div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.1 Expression data with peptide sequences, peptide charge status, and protein ids</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("In this situation, peptide sequences, peptide charge status, and protein ids are sequentially provided in the first three columns of input file. Peptide sequences in
-                   the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status. The protein ids
-                   in the third column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the fourth column on, they are peptides/proteins expression intensity
-                   in every sample. The data structure is shown as below:")
-              ),
+              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status. The protein ids
+              in the third column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the fourth column on, they are peptides/proteins expression intensity
+              in every sample. The data structure is shown as below:")
+            ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='datapreparepng_Page1.png',height=700))),
@@ -1008,9 +1091,9 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("Similar to the above situation, peptide sequences and peptide charge status are sequentially provided in the first two columns of input file. Peptide sequences in
-                   the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status.
-                   From the third column on, they are peptides/proteins expression intensity in every sample. The data structure is shown as below:")
-              ),
+              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status.
+              From the third column on, they are peptides/proteins expression intensity in every sample. The data structure is shown as below:")
+            ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='datapreparepng_Page2.png',height=700))),
@@ -1018,23 +1101,32 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("Under this circumstance, peptide sequences, and protein ids are sequentially provided in the first two columns of input file. Peptide sequences in
-                   the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The protein ids
-                   in the second column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the third column on, they are peptides/proteins expression intensity
-                   in every sample. The data structure is shown as below:")
-              ),
+              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The protein ids
+              in the second column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the third column on, they are peptides/proteins expression intensity
+              in every sample. The data structure is shown as below:")
+            ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='datapreparepng_Page3.png',height=700))),
             div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.4 Expression data with protein ids</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              HTML("In this situation, protein ids are provided in the first two columns of input file. The protein ids here
-                   should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the second column on, they are peptides/proteins expression intensity
-                   in every sample. The data structure is shown as below:")
-              ),
+              HTML("In this situation, protein ids are provided in the first columns of input file. The protein ids here
+              should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the second column on, they are peptides/proteins expression intensity
+              in every sample. The data structure is shown as below:")
+            ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='datapreparepng_Page4.png',height=700))),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.5 Other kinds of omics data</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("If users want to use NAguideR for other omics data (i.e. genomics, metabolomics), gene/metabolite ids/names should be provided in the first columns of input file.
+              From the second column on, they are genes/metabolites expression intensity in every sample. The data structure may be shown as below:")
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='datapreparepng_Page6.png',height=700))),
             div(style="text-align:left;margin-top:10px;font-size:130%;",HTML("<b>2.1.2 Sample information data</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
@@ -1117,13 +1209,13 @@ ui<-renderUI(
               HTML("If you have any questions, comments or suggestions about NAguideR, please feel free to contact: <u>wssdandan2009@outlook.com</u>. We really appreciate that you use NAguideR, and your suggestions should be valuable to its improvement in the future.")
             ),
             icon = icon("file-alt")
-            ),
+          ),
           widths=c(3,9)
-            ),
+        ),
         icon = icon("info-circle")
-            )
-            )
       )
+    )
+  )
 )
 #
 server<-shinyServer(function(input, output, session){
@@ -1156,7 +1248,7 @@ server<-shinyServer(function(input, output, session){
           div(style="text-align:left;margin-top:20px;font-size:140%;color:darkred",
               HTML("~~ <em>Dear Users, Welcome to NAguideR</em> ~~")),
           div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px",
-              HTML("<b>NAguideR</b> is a web-based tool, which integrates 20 common missing value imputation methods and provides two categories of evaluation criteria (4 classic criteria and 4 proteomic criteria) to assess the imputation performance of various methods. We hope this tool could help scientists impute the missing values systematically and present valuable guidance to select one proper method for their own data. In addition, this tool supports both online access and local installation.")),
+              HTML("<b>NAguideR</b> is a web-based tool, which integrates 23 common missing value imputation methods and provides two categories of evaluation criteria (4 classic criteria and 4 proteomic criteria) to assess the imputation performance of various methods. We hope this tool could help scientists impute the missing values systematically and present valuable guidance to select one proper method for their own data. In addition, this tool supports both online access and local installation.")),
           div(style="text-align:center;margin-top: 50px",
               a(href='#',
                 img(src='NAguideR_home_small.jpg',height=imgwidth))),
@@ -1471,12 +1563,13 @@ server<-shinyServer(function(input, output, session){
   filtereddatadfout<-reactive({
     #grdfx<-samplesdataout()
     if(input$loaddatatype==1){
-      grdfx<-samplesdataout()
+      grdfx<<-samplesdataout()
     }else{
-      grdfx<-examplesampledatas()
+      grdfx<<-examplesampledatas()
     }
-    datadf<-nadataout()
-    grnames<-unique(grdfx[[2]])
+    datadf<<-nadataout()
+    grnames<<-unique(grdfx[[2]])
+    naratiox<<-input$naratio
     if(input$fenzukaolvif){
       nastatsdf<-NULL
       nastatsdf0<-NULL
@@ -1487,7 +1580,7 @@ server<-shinyServer(function(input, output, session){
           dataindex[narowsumix,]<-0
         }
         narowsumi<-apply(dataindex,1,function(x){sum(is.na(x))})/ncol(dataindex)
-        dataindex1<-data.frame(nabili=narowsumi<=input$naratio)
+        dataindex1<-data.frame(nabili=narowsumi<=naratiox)
         nastatsdf<-cbind(nastatsdf,as.matrix(dataindex1))
         nastatsdf0<-cbind(nastatsdf0,as.matrix(dataindex))
       }
@@ -1608,12 +1701,37 @@ server<-shinyServer(function(input, output, session){
       )
     }
   )
+  #Check input data
+  output$inputdatacheck1<-renderUI({
+    yuanshiinputdata<-nadataout()
+    filtereddata<-cvfilterdataout()
+    div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+        HTML("~~ <em>Check information for input data</em> ~~<br />"),
+        HTML(paste0("&nbsp;&nbsp;1. There are ",nrow(yuanshiinputdata)," rows and ",ncol(yuanshiinputdata),
+                    " columns in the input expression data;<br />")),
+        HTML(paste0("&nbsp;&nbsp;2. After removing those rows with high proportion of missing values and coefficient of variation
+                    (the threshold can be set on the left parameter panel), there are ",
+                    nrow(filtereddata)," rows left in the filtered data;<br />")))
+  })
+  output$inputdatacheck2<-renderUI({
+    yuanshiinputdata<-nadataout()
+    filtereddata<-cvfilterdataout()
+    if(nrow(filtereddata)/nrow(yuanshiinputdata)>0.5){
+      div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+          HTML(paste0("Finally, ",round(nrow(filtereddata)/nrow(yuanshiinputdata),2)*100," % of the input data are retained, NAguideR thinks this is acceptable.
+                      However, if you do not think so, please check your input data and the parameters, you can adjust them on the left panel and then proceed to the next step.")))
+    }else{
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+          HTML(paste0("Warning: ",round(1-nrow(filtereddata)/nrow(yuanshiinputdata),2)*100," % of the input data are removed, NAguideR suggests you check or adjust your
+                      input data and the parameters again. If you can be sure there are no problems on the input data and parameters, you can proceed to the next step.")))
+    }
+  })
   #
   suijidataout<-reactive({
-    dfx<-cvfilterdataout()
+    dfx<<-cvfilterdataout()
     naratiox<<-dim(dfx[!complete.cases(dfx),])[1]/nrow(dfx)#sum(is.na(dfx))/(nrow(dfx)*ncol(dfx))
     nacolratio<-apply(dfx[!complete.cases(dfx),],2,function(x){sum(is.na(x))})/nrow(dfx[!complete.cases(dfx),])
-    datanonaoutx<-datanonaout()
+    datanonaoutx<<-datanonaout()
     #set.seed(123)
     #if(input$rationaselectif){
     #  nanum<-round(input$rationaselect*nrow(datanonaoutx)*ncol(datanonaoutx))#
@@ -1642,6 +1760,18 @@ server<-shinyServer(function(input, output, session){
       }
       datanonaoutxx1[samplenaindexi,i]<-NA
     }
+    if(nrow(datanonaoutxx1)!=sum(complete.cases(datanonaoutxx1))){
+      datanonaoutxx1_1<-datanonaoutx[samplenaindex,]
+      datanonaoutxx1_2<-datanonaoutx[-samplenaindex,]
+      for(ii in 1:nrow(datanonaoutxx1_1)){
+        set.seed(ii)
+        eachrownaratio<-round(naratiox*ncol(datanonaoutx))
+        samplenaindexi<-sample(1:ncol(datanonaoutx),ifelse(eachrownaratio==0,round(0.3*ncol(datanonaoutx)),eachrownaratio))
+        datanonaoutxx1_1[ii,samplenaindexi]<-NA
+      }
+      datanonaoutxx1<-rbind(datanonaoutxx1_1,datanonaoutxx1_2)
+      datanonaoutxx1<-datanonaoutxx1[match(rownames(datanonaoutx), rownames(datanonaoutxx1)),]
+    }
     rowcolindex1<-which(is.na(datanonaoutxx1),arr.ind = TRUE)
     phosdata_na_sim1<-datanonaoutxx1
     list(suijinadatadf=phosdata_na_sim1,rowcolindex=rowcolindex1)
@@ -1651,23 +1781,26 @@ server<-shinyServer(function(input, output, session){
     if(input$zeromethodif) namethods[1]<-"zero"
     if(input$minimummethodif) namethods[2]<-"minimum"
     if(input$colmedianif) namethods[3]<-"colmedian"
-    if(input$objectmedianif) namethods[4]<-"objectmedian"
-    if(input$svdmethodif) namethods[5]<-"svdmethod"
-    if(input$KNNmethodif) namethods[6]<-"KNNmethod"
-    if(input$llsif) namethods[7]<-"lls"
-    if(input$mlif) namethods[8]<-"ml"
-    if(input$minprobif) namethods[9]<-"minprob"
-    if(input$mindetif) namethods[10]<-"mindet"
-    if(input$impseqif) namethods[11]<-"impseq"
-    if(input$impseqrobif) namethods[12]<-"impseqrob"
-    if(input$micenormif) namethods[13]<-"mice-norm"
-    if(input$QRILCif) namethods[14]<-"QRILC"
-    if(input$seqknnif) namethods[15]<-"seqknn"
-    if(input$bpcaif) namethods[16]<-"bpca"
-    if(input$trknnif) namethods[17]<-"trknn"
-    if(input$irmif) namethods[18]<-"irm"
-    if(input$micecartif) namethods[19]<-"mice-cart"
-    if(input$RFif) namethods[20]<-"RF"
+    if(input$rowmedianif) namethods[4]<-"rowmedian"
+    if(input$mindetif) namethods[5]<-"mindet"
+    if(input$minprobif) namethods[6]<-"minprob"
+    if(input$PIif) namethods[7]<-"PI"
+    if(input$svdmethodif) namethods[8]<-"svdmethod"
+    if(input$mleif) namethods[9]<-"mle"
+    if(input$impseqif) namethods[10]<-"impseq"
+    if(input$impseqrobif) namethods[11]<-"impseqrob"
+    if(input$bpcaif) namethods[12]<-"bpca"
+    if(input$KNNmethodif) namethods[13]<-"KNNmethod"
+    if(input$seqknnif) namethods[14]<-"seqknn"
+    if(input$QRILCif) namethods[15]<-"QRILC"
+    if(input$llsif) namethods[16]<-"lls"
+    if(input$GRRif) namethods[17]<-"GRR"
+    if(input$micenormif) namethods[18]<-"mice-norm"
+    if(input$trknnif) namethods[19]<-"trknn"
+    if(input$irmif) namethods[20]<-"irm"
+    if(input$GMSif) namethods[21]<-"GMS"
+    if(input$micecartif) namethods[22]<-"mice-cart"
+    if(input$RFif) namethods[23]<-"RF"
     namethods
   })
   namethodsout<-eventReactive(input$mcsbtn_imputationII,{
@@ -1691,7 +1824,7 @@ server<-shinyServer(function(input, output, session){
       library(e1071)
       df<-impute(df1,what ="median")
     }
-    else if(method=="objectmedian"){
+    else if(method=="rowmedian"){
       library(e1071)
       dfx<-impute(t(df1),what ="median")
       df<-t(dfx)
@@ -1720,7 +1853,7 @@ server<-shinyServer(function(input, output, session){
       data_zero1<-llsImpute(t(df1), k = 10)
       df<-t(completeObs(data_zero1))
     }
-    else if(method=="ml"){
+    else if(method=="mle"){
       library(norm)
       xxm<-as.matrix(df1)
       ss <- norm::prelim.norm(xxm)
@@ -1796,6 +1929,29 @@ server<-shinyServer(function(input, output, session){
       #data_zero1 <- missForest(df1, maxiter =10,ntree = input$rfntrees,verbose = TRUE)#mtry=floor(row(df1)^(1/3)),
       #df<-data_zero1$ximp
     }
+    else if(method=="pi"){
+      width <- 0.3
+      downshift <- 1.8
+      for(i in 1:ncol(df1)){
+        temp <- df1[[i]]
+        if(sum(is.na(temp))>0){
+          temp.sd <- width * sd(temp[!is.na(temp)], na.rm = TRUE)
+          temp.mean <- mean(temp[!is.na(temp)], na.rm = TRUE) - downshift * sd(temp[!is.na(temp)], na.rm = TRUE)
+          n.missing <- sum(is.na(temp))
+          temp[is.na(temp)] <- rnorm(n.missing, mean = temp.mean, sd = temp.sd)
+          df[[i]]<-temp
+        }
+      }
+      df
+    }
+    else if(method=="grr"){
+      library(DreamAI)
+      df<-impute.RegImpute(data=as.matrix(df1), fillmethod = "row_mean", maxiter_RegImpute = 10,conv_nrmse = 1e-03)
+    }
+    else if(method=="gms"){
+      library(GMSimpute)
+      df<-GMS.Lasso(df1,nfolds=3,log.scale=FALSE,TS.Lasso=TRUE)
+    }
     else{
       stop("Unspported methods so far~~")
     }
@@ -1823,7 +1979,7 @@ server<-shinyServer(function(input, output, session){
     namethodsoutx<-tolower(na.omit(namethodsout()))
     suijinadatadfx<-suijidataout()$suijinadatadf
     rowcolindexx<-suijidataout()$rowcolindex
-    suijidatajieguo<-suijidataimputeout()
+    suijidatajieguo<<-suijidataimputeout()
     nrmsei<-vector()
     for(i in 1:length(namethodsoutx)){
       impdata<-as.numeric(suijidatajieguo[[namethodsoutx[i]]][rowcolindexx])
@@ -1929,8 +2085,18 @@ server<-shinyServer(function(input, output, session){
     #pssres$Groups<-"PSS"
     rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(nrmsedf, sornrmsedf, avgcor,pssres))#,accpcresdf
     rankdf1<-rankdf[,c(1,3,5,7,9)]
-    rankdf1$Rank_Mean<-rowMeans(rankdf[,c(3,5,7,9)])
-    rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    #
+    if(input$customclassiccriteriaif){
+      xuanzecc<-paste0(input$classiccriteriaxuabze,"_Rank")
+      xuanzeccweight<-as.numeric(strsplit(input$classiccriteriaweight,";")[[1]])
+      rankdf2<-as.matrix(rankdf1[,xuanzecc,drop=TRUE])
+      rankdf1$Rank_Mean<-rankdf2%*%c(xuanzeccweight/sum(xuanzeccweight))
+      rankdf1<-rankdf1[,c("Methods",xuanzecc,"Rank_Mean")]
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }else{
+      rankdf1$Rank_Mean<-rowMeans(rankdf[,c(3,5,7,9)])
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }
     rankdf1[order(rankdf1$Rank_Mean),]
   })
   imputeIplotdataout<-reactive({
@@ -2125,7 +2291,7 @@ server<-shinyServer(function(input, output, session){
         ggplot(pdx, aes(order, Values, color=Groups)) +
           geom_point(aes(shape=Groups), size=5) +
           geom_line(aes(group=Groups),size=1.4) +
-          scale_x_continuous(breaks = pdx$order,labels = pdx$Methods) +
+          scale_x_continuous(breaks = pdx$order,labels = pdx$Methods,expand = c(0.02,0.02)) +
           facet_wrap(~ Groups, scales = "free") +
           xlab("Methods") +
           theme_bw()+
@@ -2152,7 +2318,7 @@ server<-shinyServer(function(input, output, session){
         ggplot(pdx, aes(order, Values, color=Groups)) +
           geom_point(aes(shape=Groups), size=5) +
           geom_line(aes(group=Groups),size=1.4) +
-          scale_x_continuous(breaks = pdx$order,labels = pdx$Methods) +
+          scale_x_continuous(breaks = pdx$order,labels = pdx$Methods,expand = c(0.02,0.02)) +
           facet_wrap(~ Groups, scales = "free") +
           xlab("Methods") +
           theme_bw()+
@@ -2485,6 +2651,75 @@ server<-shinyServer(function(input, output, session){
     #})
     proassesslist
   })
+  ####2####
+  accpprank2out<-reactive({
+    accppres2df<-proassessout()$pepproresdf
+    accppres2df$PepProt_Rank<-rank(1/proassessout()$pepproresdf$ACC_peppro)
+    acccomplexres2df<-proassessout()$procomplexresdf
+    acccomplexres2df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
+    acchumapres2df<-proassessout()$prohumapresdf
+    acchumapres2df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
+    rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(accppres2df, acccomplexres2df, acchumapres2df))
+    rankdf1<-rankdf[,c(1,3,5,7)]
+    #
+    if(input$customproteomiccriteriaif){
+      xuanzecc<-paste0(input$proteomiccriteriaxuabze,"_Rank")
+      xuanzeccweight<-as.numeric(strsplit(input$proteomiccriteriaweight,";")[[1]])
+      rankdf2<-as.matrix(rankdf1[,xuanzecc,drop=TRUE])
+      rankdf1$Rank_Mean<-rankdf2%*%c(xuanzeccweight/sum(xuanzeccweight))
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }else{
+      rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5,7)]),3)
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }
+    rankdf1[order(rankdf1$Rank_Mean),]
+  })
+  ####3###
+  accpprank3out<-reactive({
+    accpcres3df<-proassessout()$accpcresdf
+    accpcres3df$Charge_Rank<-rank(1/proassessout()$accpcresdf$ACC_Charge)
+    accppres3df<-proassessout()$pepproresdf
+    accppres3df$PepProt_Rank<-rank(1/proassessout()$pepproresdf$ACC_peppro)
+    acccomplexres3df<-proassessout()$procomplexresdf
+    acccomplexres3df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
+    acchumapres3df<-proassessout()$prohumapresdf
+    acchumapres3df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
+    rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(accpcres3df,accppres3df, acccomplexres3df, acchumapres3df))
+    rankdf1<-rankdf[,c(1,3,5,7,9)]
+    #
+    if(input$customproteomiccriteriaif){
+      xuanzecc<-paste0(input$proteomiccriteriaxuabze,"_Rank")
+      xuanzeccweight<-as.numeric(strsplit(input$proteomiccriteriaweight,";")[[1]])
+      rankdf2<-as.matrix(rankdf1[,xuanzecc,drop=TRUE])
+      rankdf1$Rank_Mean<-rankdf2%*%c(xuanzeccweight/sum(xuanzeccweight))
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }else{
+      rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5,7,9)]),3)
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }
+    rankdf1[order(rankdf1$Rank_Mean),]
+  })
+  #####4####
+  accpprank4out<-reactive({
+    acccomplexres4df<-proassessout()$procomplexresdf
+    acccomplexres4df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
+    acchumapres4df<-proassessout()$prohumapresdf
+    acchumapres4df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
+    rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(acccomplexres4df, acchumapres4df))
+    rankdf1<-rankdf[,c(1,3,5)]
+    #
+    if(input$customproteomiccriteriaif){
+      xuanzecc<-paste0(input$proteomiccriteriaxuabze,"_Rank")
+      xuanzeccweight<-as.numeric(strsplit(input$proteomiccriteriaweight,";")[[1]])
+      rankdf2<-as.matrix(rankdf1[,xuanzecc,drop=TRUE])
+      rankdf1$Rank_Mean<-rankdf2%*%c(xuanzeccweight/sum(xuanzeccweight))
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }else{
+      rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5)]),3)
+      rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
+    }
+    rankdf1[order(rankdf1$Rank_Mean),]
+  })
 
   observeEvent(
     input$mcsbtn_imputationpro,{
@@ -2555,19 +2790,6 @@ server<-shinyServer(function(input, output, session){
         }
       )
       ########2###
-      accpprank2out<-reactive({
-        accppres2df<<-proassessout()$pepproresdf
-        accppres2df$PepProt_Rank<-rank(1/proassessout()$pepproresdf$ACC_peppro)
-        acccomplexres2df<<-proassessout()$procomplexresdf
-        acccomplexres2df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
-        acchumapres2df<<-proassessout()$prohumapresdf
-        acchumapres2df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
-        rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(accppres2df, acccomplexres2df, acchumapres2df))
-        rankdf1<-rankdf[,c(1,3,5,7)]
-        rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5,7)]),3)
-        rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
-        rankdf1[order(rankdf1$Rank_Mean),]
-      })
       output$accpprank2<-renderDataTable({
         datatable(accpprank2out(), options = list(pageLength = 20))
       })
@@ -2776,21 +2998,6 @@ server<-shinyServer(function(input, output, session){
         }
       )
       ########3###
-      accpprank3out<-reactive({
-        accpcres3df<<-proassessout()$accpcresdf
-        accpcres3df$Charge_Rank<-rank(1/proassessout()$accpcresdf$ACC_Charge)
-        accppres3df<<-proassessout()$pepproresdf
-        accppres3df$PepProt_Rank<-rank(1/proassessout()$pepproresdf$ACC_peppro)
-        acccomplexres3df<<-proassessout()$procomplexresdf
-        acccomplexres3df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
-        acchumapres3df<<-proassessout()$prohumapresdf
-        acchumapres3df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
-        rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(accpcres3df,accppres3df, acccomplexres3df, acchumapres3df))
-        rankdf1<-rankdf[,c(1,3,5,7,9)]
-        rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5,7,9)]),3)
-        rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
-        rankdf1[order(rankdf1$Rank_Mean),]
-      })
       output$accpprank3<-renderDataTable({
         datatable(accpprank3out(), options = list(pageLength = 20))
       })
@@ -3091,17 +3298,6 @@ server<-shinyServer(function(input, output, session){
         }
       )
       ########4##
-      accpprank4out<-reactive({
-        acccomplexres4df<-proassessout()$procomplexresdf
-        acccomplexres4df$CORUM_Rank<-rank(1/proassessout()$procomplexresdf$ACC_CORUM)
-        acchumapres4df<-proassessout()$prohumapresdf
-        acchumapres4df$PPI_Rank<-rank(1/proassessout()$prohumapresdf$ACC_PPI)
-        rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(acccomplexres3df, acchumapres3df))
-        rankdf1<-rankdf[,c(1,3,5)]
-        rankdf1$Rank_Mean<-round(rowMeans(rankdf[,c(3,5)]),3)
-        rownames(rankdf1)<-paste0("Method ",rownames(rankdf1))
-        rankdf1[order(rankdf1$Rank_Mean),]
-      })
       output$accpprank4<-renderDataTable({
         datatable(accpprank4out(), options = list(pageLength = 20))
       })
@@ -3243,9 +3439,192 @@ server<-shinyServer(function(input, output, session){
           dev.off()
         }
       )
-
     }
   )
+  ##
+  output$finalcheck1<-renderUI({
+    nrmsedf<-nrmsedfout()
+    sornrmsedf<-sornrmsedfout()
+    avgcor<-avgcorout()
+    pssres<-pssresout()
+    assessrankdf<-assessrankout()
+    if(input$datatypex==1){
+      procriteria1<-proassessout()$accpcresdf
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+          HTML("~~ <em>Check information for final imputation results</em> ~~<br />"),
+          HTML(paste0("&nbsp;&nbsp;1. Based on the classic criteria, The rank first method is ",strong(assessrankdf$Methods[1]),
+                      " (NRMSE: ",nrmsedf[[2]][nrmsedf[[1]]==assessrankdf$Methods[1]],", SOR: ",sornrmsedf[[2]][sornrmsedf[[1]]==assessrankdf$Methods[1]],
+                      ", ACC_OI: ",avgcor[[2]][avgcor[[1]]==assessrankdf$Methods[1]],", PSS: ",pssres[[2]][pssres[[1]]==assessrankdf$Methods[1]],
+                      ");<br />")),
+          HTML(paste0("&nbsp;&nbsp;2. Based on the proteomic criteria, The rank first method is ",strong(pjalldf$Methods[1]),
+                      " (ACC_Charge: ",procriteria1[[2]][procriteria1[[1]]==pjalldf$Methods[1]],
+                      ").<br />")))
+    }else if(input$datatypex==2){
+      procriteria2<-proassessout()$pepproresdf
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      pjalldf<-accpprank2out()
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+          HTML("~~ <em>Check information for final imputation results</em> ~~<br />"),
+          HTML(paste0("&nbsp;&nbsp;1. Based on the classic criteria, The rank first method is ",strong(assessrankdf$Methods[1]),
+                      " (NRMSE: ",nrmsedf[[2]][nrmsedf[[1]]==assessrankdf$Methods[1]],", SOR: ",sornrmsedf[[2]][sornrmsedf[[1]]==assessrankdf$Methods[1]],
+                      ", ACC_OI: ",avgcor[[2]][avgcor[[1]]==assessrankdf$Methods[1]],", PSS: ",pssres[[2]][pssres[[1]]==assessrankdf$Methods[1]],
+                      ");<br />")),
+          HTML(paste0("&nbsp;&nbsp;2. Based on the proteomic criteria, The rank first method is ",strong(pjalldf$Methods[1]),
+                      " (ACC_PepProt: ",
+                      procriteria2[[2]][procriteria2[[1]]==pjalldf$Methods[1]],", ACC_CORUM: ",
+                      procriteria3[[2]][procriteria3[[1]]==pjalldf$Methods[1]],", ACC_PPI: ",
+                      procriteria4[[2]][procriteria4[[1]]==pjalldf$Methods[1]],
+                      ").<br />")))
+    }else if(input$datatypex==3){
+      procriteria1<-proassessout()$accpcresdf
+      procriteria2<-proassessout()$pepproresdf
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      pjalldf<-accpprank3out()
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+          HTML("~~ <em>Check information for final imputation results</em> ~~<br />"),
+          HTML(paste0("&nbsp;&nbsp;1. Based on the classic criteria, The rank first method is ",strong(assessrankdf$Methods[1]),
+                      " (NRMSE: ",nrmsedf[[2]][nrmsedf[[1]]==assessrankdf$Methods[1]],", SOR: ",sornrmsedf[[2]][sornrmsedf[[1]]==assessrankdf$Methods[1]],
+                      ", ACC_OI: ",avgcor[[2]][avgcor[[1]]==assessrankdf$Methods[1]],", PSS: ",pssres[[2]][pssres[[1]]==assessrankdf$Methods[1]],
+                      ");<br />")),
+          HTML(paste0("&nbsp;&nbsp;2. Based on the proteomic criteria, The rank first method is ",strong(pjalldf$Methods[1]),
+                      " (ACC_Charge: ",procriteria1[[2]][procriteria1[[1]]==pjalldf$Methods[1]],", ACC_PepProt: ",
+                      procriteria2[[2]][procriteria2[[1]]==pjalldf$Methods[1]],", ACC_CORUM: ",
+                      procriteria3[[2]][procriteria3[[1]]==pjalldf$Methods[1]],", ACC_PPI: ",
+                      procriteria4[[2]][procriteria4[[1]]==pjalldf$Methods[1]],
+                      ").<br />")))
+    }else if(input$datatypex==4){
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      pjalldf<-accpprank4out()
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+          HTML("~~ <em>Check information for final imputation results</em> ~~<br />"),
+          HTML(paste0("&nbsp;&nbsp;1. Based on the classic criteria, The rank first method is ",strong(assessrankdf$Methods[1]),
+                      " (NRMSE: ",nrmsedf[[2]][nrmsedf[[1]]==assessrankdf$Methods[1]],", SOR: ",sornrmsedf[[2]][sornrmsedf[[1]]==assessrankdf$Methods[1]],
+                      ", ACC_OI: ",avgcor[[2]][avgcor[[1]]==assessrankdf$Methods[1]],", PSS: ",pssres[[2]][pssres[[1]]==assessrankdf$Methods[1]],
+                      ");<br />")),
+          HTML(paste0("&nbsp;&nbsp;2. Based on the proteomic criteria, The rank first method is ",strong(pjalldf$Methods[1]),
+                      " (ACC_CORUM: ",
+                      procriteria3[[2]][procriteria3[[1]]==pjalldf$Methods[1]],", ACC_PPI: ",
+                      procriteria4[[2]][procriteria4[[1]]==pjalldf$Methods[1]],
+                      ").<br />")))
+    }else{
+      div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:130%;color:black",
+          HTML("~~ <em>Check information for final imputation results</em> ~~<br />"),
+          HTML(paste0("&nbsp;&nbsp;1. Based on the classic criteria, The rank first method is ",strong(assessrankdf$Methods[1]),
+                      " (NRMSE: ",nrmsedf[[2]][nrmsedf[[1]]==assessrankdf$Methods[1]],", SOR: ",sornrmsedf[[2]][sornrmsedf[[1]]==assessrankdf$Methods[1]],
+                      ", ACC_OI: ",avgcor[[2]][avgcor[[1]]==assessrankdf$Methods[1]],", PSS: ",pssres[[2]][pssres[[1]]==assessrankdf$Methods[1]],
+                      ");<br />")))
+    }
+  })
+  output$finalcheck2<-renderUI({
+    nrmsedf<-nrmsedfout()
+    sornrmsedf<-sornrmsedfout()
+    avgcor<-avgcorout()
+    pssres<-pssresout()
+    classiccriteriafc<-c(max(nrmsedf[[2]])/min(nrmsedf[[2]]),max(sornrmsedf[[2]])/min(sornrmsedf[[2]]),
+                         max(avgcor[[2]])/min(avgcor[[2]]),max(pssres[[2]])/min(pssres[[2]]))
+    if(input$datatypex==1){
+      procriteria1<-proassessout()$accpcresdf
+      allcriteriafc<-c(classiccriteriafc,max(procriteria1[[2]])/min(procriteria1[[2]]))
+      allcriteriafcnames<-c("NRMSE","SOR","ACC_OI","PSS","ACC_Charge")
+      if(sum(allcriteriafc>=2)>=length(allcriteriafc)/2){
+        div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+            HTML(paste0("Finally, NAguideR thinks the imputation results are acceptable, you can choose the best one based on the classic criteria or proteomic criteria for future analysis.")))
+      }else{
+        div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+            HTML(paste0("Warning: NAguideR detects the scores based on more than half of the criteria don't seem to change much (",paste(allcriteriafcnames[which(allcriteriafc<2)],collapse = ", "),
+                        "). The imputation results may not be quite acceptable, please check the results again.<br />")),
+            hr(),
+            HTML("Possible solutions:<br />"),
+            HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
+            HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+      }
+    }else if(input$datatypex==2){
+      procriteria2<-proassessout()$pepproresdf
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      allcriteriafc<-c(classiccriteriafc,max(procriteria2[[2]])/min(procriteria2[[2]]),
+                       max(procriteria3[[2]])/min(procriteria3[[2]]),max(procriteria4[[2]])/min(procriteria4[[2]]))
+      allcriteriafcnames<-c("NRMSE","SOR","ACC_OI","PSS","ACC_PepProt","ACC_CORUM","ACC_PPI")
+      if(sum(allcriteriafc>=2)>=length(allcriteriafc)/2){
+        div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+            HTML(paste0("Finally, NAguideR thinks the imputation results are acceptable, you can choose the best one based on the classic criteria or proteomic criteria for future analysis.")))
+      }else{
+        div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+            HTML(paste0("Warning: NAguideR detects the scores based on more than half of the criteria don't seem to change much (",paste(allcriteriafcnames[which(allcriteriafc<2)],collapse = ", "),
+                        "). The imputation results may not be quite acceptable, please check the results again.<br />")),
+            hr(),
+            HTML("Possible solutions:<br />"),
+            HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
+            HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+      }
+    }else if(input$datatypex==3){
+      procriteria1<-proassessout()$accpcresdf
+      procriteria2<-proassessout()$pepproresdf
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      allcriteriafc<-c(classiccriteriafc,max(procriteria1[[2]])/min(procriteria1[[2]]),max(procriteria2[[2]])/min(procriteria2[[2]]),
+                       max(procriteria3[[2]])/min(procriteria3[[2]]),max(procriteria4[[2]])/min(procriteria4[[2]]))
+      allcriteriafcnames<-c("NRMSE","SOR","ACC_OI","PSS","ACC_Charge","ACC_PepProt","ACC_CORUM","ACC_PPI")
+      if(sum(allcriteriafc>=2)>=length(allcriteriafc)/2){
+        div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+            HTML(paste0("Finally, NAguideR thinks the imputation results are acceptable, you can choose the best one based on the classic criteria or proteomic criteria for future analysis.")))
+      }else{
+        div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+            HTML(paste0("Warning: NAguideR detects the scores based on more than half of the criteria don't seem to change much (",paste(allcriteriafcnames[which(allcriteriafc<2)],collapse = ", "),
+                        "). The imputation results may not be quite acceptable, please check the results again.<br />")),
+            hr(),
+            HTML("Possible solutions:<br />"),
+            HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
+            HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+      }
+    }else if(input$datatypex==4){
+      procriteria3<-proassessout()$procomplexresdf
+      procriteria4<-proassessout()$prohumapresdf
+      allcriteriafc<-c(classiccriteriafc,max(procriteria3[[2]])/min(procriteria3[[2]]),
+                       max(procriteria4[[2]])/min(procriteria4[[2]]))
+      allcriteriafcnames<-c("NRMSE","SOR","ACC_OI","PSS","ACC_CORUM","ACC_PPI")
+      if(sum(allcriteriafc>=2)>=length(allcriteriafc)/2){
+        div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+            HTML(paste0("Finally, NAguideR thinks the imputation results are acceptable, you can choose the best one based on the classic criteria or proteomic criteria for future analysis.")))
+      }else{
+        div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+            HTML(paste0("Warning: NAguideR detects the scores based on more than half of the criteria don't seem to change much (",paste(allcriteriafcnames[which(allcriteriafc<2)],collapse = ", "),
+                        "). The imputation results may not be quite acceptable, please check the results again.<br />")),
+            hr(),
+            HTML("Possible solutions:<br />"),
+            HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
+            HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+      }
+    }else{
+      allcriteriafc<-classiccriteriafc
+      allcriteriafcnames<-c("NRMSE","SOR","ACC_OI","PSS")
+      if(sum(allcriteriafc>=2)>=length(allcriteriafc)/2){
+        div(style="text-align:left;margin-top:10px;margin-right:150px;font-size:150%;color:green",
+            HTML(paste0("Finally, NAguideR thinks the imputation results are acceptable, you can choose the best one based on the classic criteria or proteomic criteria for future analysis.")))
+      }else{
+        div(style="text-align:left;margin-top:20px;margin-right:150px;font-size:150%;color:red",
+            HTML(paste0("Warning: NAguideR detects the scores based on more than half of the criteria don't seem to change much (",paste(allcriteriafcnames[which(allcriteriafc<2)],collapse = ", "),
+                        "). The imputation results may not be quite acceptable, please check the results again.<br />")),
+            hr(),
+            HTML("Possible solutions:<br />"),
+            HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
+            HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+      }
+    }
+  })
 
 })
 
