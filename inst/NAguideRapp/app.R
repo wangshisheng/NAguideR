@@ -31,28 +31,11 @@ ui<-renderUI(
             </div>"
         )
       )
-      #column(6,div(
-      #  HTML(
-      #    "<div style='text-align:right;margin-top:20px;margin-right:0px'>
-      #    <a href='#' target=''><img src='imputeRti.png' width='100px'>
-      #    </a>
-      #    </div>"
-      #  )
-      #  )),
-      #column(6,div(
-      #  HTML(
-      #    "<div style='text-align:left;margin-left:-20px'>
-      #    <a href='#' target=''><img src='motifeRlogo.png' height='80px'>
-      #    </a>
-      #    </div>"
-      #  )
-      #  ))
     ),
     tagList(
       tags$head(
         tags$link(rel="stylesheet", type="text/css",href="busystyle.css"),
         tags$script(type="text/javascript", src = "busy.js"),
-        #tags$style(type="text/css","#methodids{margin-left:2%;margin-right:2%}"),
         tags$style(type="text/css", "
                            #loadmessage {
                      position: fixed;
@@ -273,12 +256,6 @@ ui<-renderUI(
             checkboxInput('fenzukaolvif', '2. Count NA by each group or not?', TRUE),
             bsTooltip("fenzukaolvif",'If true, NAguideR will count the NA number in every group, otherwise, it will count the NA number across all groups.',
                       placement = "right",options = list(container = "body")),
-            #conditionalPanel(
-            #  condition = 'input.fenzukaolvif==true',
-            #  checkboxInput("keepzeroif","2.1. Keep NA as zero (0) or not?",FALSE),
-            #  bsTooltip("keepzeroif",'If true, that means when all of the values of one protein/peptide are NA in one group, NAguideR will keep these NA as 0.',
-            #            placement = "right",options = list(container = "body"))
-            #),
             numericInput('naratio', h5('3. NA ratio:'), 0.5,max = 1,min = 0,step = 0.1),
             bsTooltip("naratio",'The threshold of NA ratio. One protein/peptide with NA ratio above this threshold will be removed.',
                       placement = "right",options = list(container = "body")),
@@ -340,13 +317,6 @@ ui<-renderUI(
               tabPanel(
                 "NA Filter",
                 hr(),
-                #radioButtons(
-                #  "nafilterradiobutton",
-                #  label = h4(""),
-                #  choices = list("Filtered data"=1,"Data without NA"=2,"Data with NA"=3),
-                #  selected = 1,
-                #  inline = TRUE
-                #),
                 actionButton("mcsbtn_nafilter","Calculate",icon("paper-plane"),
                              style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
                 tags$hr(style="border-color: grey;"),
@@ -357,21 +327,6 @@ ui<-renderUI(
                     dataTableOutput("filtereddatadf")
                   )
                 )
-                #conditionalPanel(
-                #  condition = "input.nafilterradiobutton==1",
-                #  downloadButton("filtereddatadfdl","Download"),
-                #  dataTableOutput("filtereddatadf")
-                #),
-                #conditionalPanel(
-                #  condition = "input.nafilterradiobutton==2",
-                #  downloadButton("datanonadl","Download"),
-                #  dataTableOutput("datanona")
-                #),
-                #conditionalPanel(
-                #  condition = "input.nafilterradiobutton==3",
-                #  downloadButton("datahasnadl","Download"),
-                #  dataTableOutput("datahasna")
-                #)
               ),
               tabPanel(
                 "Input data check",
@@ -401,21 +356,11 @@ ui<-renderUI(
             )
           ),
           actionButton("mcsbtn_imputationII","Calculate",icon("paper-plane"),width ='200px',
-                       style="color: #fff; background-color: #CD853F; border-color: #CD853F")#,
-          #hidden(
-          #  div(
-          #    id="mcsbtn_imputationIIid",
-          #    #downloadButton("imputaionIIdatadl2","Download"),
-          #
-          #  )
-          #)
-          #tags$hr(style="border-color: grey;"),
+                       style="color: #fff; background-color: #CD853F; border-color: #CD853F")
         ),
-        #tags$hr(style="border-color: grey;"),
         hr(),
         mainPanel(
           id="methodids",
-          #style="text-align:center",
           width = 12,
           fixedRow(
             column(
@@ -773,13 +718,6 @@ ui<-renderUI(
               ),
               tabPanel(
                 "Classic criteria",# using complete data
-                #radioButtons(
-                #  "imputationxuanze",
-                #  label = h4(""),
-                #  choices = list("Assessment tables"=3,"Assessment figures"=4),#"Results"=2,"Random NA data"=1,"Method parameters" = 1,
-                #  selected = 3,
-                #  inline = TRUE
-                #),
                 hr(),
                 actionButton("mcsbtn_imputation","Calculate",icon("paper-plane"),
                              style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
@@ -821,34 +759,9 @@ ui<-renderUI(
                     plotOutput("assessplot")
                   )
                 )
-                #conditionalPanel(
-                #  condition = 'input.imputationxuanze==2',
-                #  h4("1. Imputation results:"),
-                #  dataTableOutput("suijidataresults"),
-                #  h4("2. Comparison Figures:"),
-                #  downloadButton("imputeIplotdl","Download"),
-                #  plotOutput("imputeIplot")
-                #),
-                #conditionalPanel(
-                #  condition = 'input.imputationxuanze==3',
-                #
-                #),
-                #conditionalPanel(
-                #  condition = 'input.imputationxuanze==4',
-                #  h4("Comparison Figures:"),
-                #  downloadButton("imputeIplotdl","Download"),
-                #  plotOutput("imputeIplot")
-                #)
               ),
               tabPanel(
                 "Proteomic criteria",
-                #radioButtons(
-                #  "imputationxuanzepro",
-                #  label = h4(""),
-                #  choices = list("Assessment tables"=1,"Assessment figures"=2),
-                #  selected = 1,
-                #  inline = TRUE
-                #),
                 hr(),
                 actionButton("mcsbtn_imputationpro","Calculate",icon("paper-plane"),
                              style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
@@ -941,30 +854,6 @@ ui<-renderUI(
                       h4("6. Figures:"),
                       downloadButton("accproallplotdl","Download"),
                       plotOutput("accproallplot")
-                      #column(
-                      #  width = 6,
-                      #  h4("5. Histogram of ACC_Charge:"),
-                      #  downloadButton("histaccpcplotdl3","Download"),
-                      #  plotOutput("histaccpcplot3")
-                      #),
-                      #column(
-                      #  width = 6,
-                      #  h4("6. Histogram of ACC_PepProt:"),
-                      #  downloadButton("histaccppplotdl3","Download"),
-                      #  plotOutput("histaccppplot3")
-                      #),
-                      #column(
-                      #  width = 6,
-                      #  h4("7. Histogram of ACC_CORUM:"),
-                      #  downloadButton("histacccomplexplotdl3","Download"),
-                      #  plotOutput("histacccomplexplot3")
-                      #),
-                      #column(
-                      #  width = 6,
-                      #  h4("8. Histogram of ACC_PPI:"),
-                      #  downloadButton("histacchumapplotdl3","Download"),
-                      #  plotOutput("histacchumapplot3")
-                      #)
                     ),
                     conditionalPanel(
                       condition = "input.datatypex==4",
@@ -1002,15 +891,10 @@ ui<-renderUI(
                     )
                   )
                 )
-                #conditionalPanel()
-                #condition = "input.imputationxuanzepro==1",
               ),
               tabPanel(
                 "Final check",
                 hr(),
-                #actionButton("mcsbtn_imputationpro","Calculate",icon("paper-plane"),
-                #             style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
-                #tags$hr(style="border-color: grey;"),
                 uiOutput("finalcheck1"),
                 uiOutput("finalcheck2")
               )
@@ -1239,7 +1123,6 @@ server<-shinyServer(function(input, output, session){
     }
 
     fluidRow(
-      #div(style="text-align:center",h1("~~Welcome~~")),
       div(
         id="mainbody",
         column(3),
@@ -1561,24 +1444,20 @@ server<-shinyServer(function(input, output, session){
   )
   #
   filtereddatadfout<-reactive({
-    #grdfx<-samplesdataout()
     if(input$loaddatatype==1){
-      grdfx<<-samplesdataout()
+      grdfx<-samplesdataout()
     }else{
-      grdfx<<-examplesampledatas()
+      grdfx<-examplesampledatas()
     }
-    datadf<<-nadataout()
-    grnames<<-unique(grdfx[[2]])
-    naratiox<<-input$naratio
+    datadf<-nadataout()
+    grnames<-unique(grdfx[[2]])
+    naratiox<-input$naratio
     if(input$fenzukaolvif){
       nastatsdf<-NULL
       nastatsdf0<-NULL
       for(i in 1:length(grnames)){
         dataindex<-datadf[,grdfx[[2]]==grnames[i]]
         narowsumix<-apply(dataindex,1,function(x){sum(is.na(x))})==ncol(dataindex)
-        if(FALSE){#input$keepzeroif
-          dataindex[narowsumix,]<-0
-        }
         narowsumi<-apply(dataindex,1,function(x){sum(is.na(x))})/ncol(dataindex)
         dataindex1<-data.frame(nabili=narowsumi<=naratiox)
         nastatsdf<-cbind(nastatsdf,as.matrix(dataindex1))
@@ -1592,24 +1471,18 @@ server<-shinyServer(function(input, output, session){
         }
       })
       datadfchuli<-datadf[nafenzuindex,]
-      if(FALSE){#input$keepzeroif
-        datadfchuli<-nastatsdf0[nafenzuindex,]
-      }
       datadfchuli<-as.data.frame(datadfchuli)
     }else{
       narowsum<-apply(datadf,1,function(x){sum(is.na(x))})/ncol(datadf)
       datadfchuli<-datadf[narowsum<=input$naratio,]
     }
     datadfchulix<-datadfchuli
-    #if(input$logif){
-    #  datadfchuli<-log2(datadfchuli)#log2(datadfchuli+1)
-    #}
     if(input$mediannormif){
       medianval<-apply(datadfchuli,2,function(x) {median(x,na.rm = TRUE)})
       datadfchuli<-sweep(datadfchuli,2,medianval,FUN = "/")
     }
     if(input$logif){
-      datadfchuli<-log2(datadfchuli)#log2(datadfchuli+1)
+      datadfchuli<-log2(datadfchuli)
     }
 
     list(datadfchuli=datadfchuli,datadfchuli_nonorm=datadfchulix)
@@ -1623,16 +1496,6 @@ server<-shinyServer(function(input, output, session){
     }else{
       dfx<-dfx1
     }
-    #if(input$logif){
-    #  dfx<-filtereddatadfout()$datadfchuli_nonorm
-    #  dfx1<-2^dfx-1
-    #  medianval<-apply(dfx1,2,function(x) {median(x,na.rm = TRUE)})
-    #  dfx1<-sweep(dfx1,2,medianval,FUN = "/")
-    #  dfx<-dfx1
-    #}else{
-    #  dfx<-filtereddatadfout()$datadfchuli
-    #}
-    #samplesdf<<-samplesdataout()
     if(input$loaddatatype==1){
       samplesdf<<-samplesdataout()
     }else{
@@ -1728,36 +1591,17 @@ server<-shinyServer(function(input, output, session){
   })
   #
   suijidataout<-reactive({
-    dfx<<-cvfilterdataout()
-    naratiox<<-dim(dfx[!complete.cases(dfx),])[1]/nrow(dfx)#sum(is.na(dfx))/(nrow(dfx)*ncol(dfx))
+    dfx<-cvfilterdataout()
+    naratiox<-dim(dfx[!complete.cases(dfx),])[1]/nrow(dfx)
     nacolratio<-apply(dfx[!complete.cases(dfx),],2,function(x){sum(is.na(x))})/nrow(dfx[!complete.cases(dfx),])
-    datanonaoutx<<-datanonaout()
-    #set.seed(123)
-    #if(input$rationaselectif){
-    #  nanum<-round(input$rationaselect*nrow(datanonaoutx)*ncol(datanonaoutx))#
-    #}else{
-    #  nanum<-round(naratiox*nrow(datanonaoutx)*ncol(datanonaoutx))
-    #}
-    #rowindex<-sample(1:nrow(datanonaoutx),nanum,replace =TRUE)
-    #colindex<-sample(1:ncol(datanonaoutx),nanum,replace =TRUE)
-    #rowcolindex1<-unique(cbind(rowindex,colindex))
-    #phosdata_na_sim1<-datanonaoutx
-    #phosdata_na_sim1[rowcolindex1]<-NA
-    if(FALSE){#input$rationaselectif
-      nanum<-round(input$rationaselect*nrow(datanonaoutx))
-    }else{
-      nanum<-round(naratiox*nrow(datanonaoutx))
-    }
+    datanonaoutx<-datanonaout()
+    nanum<-round(naratiox*nrow(datanonaoutx))
     set.seed(123)
     samplenaindex<-sample(1:nrow(datanonaoutx),nanum)
     datanonaoutxx1<-datanonaoutx
     for(i in 1:ncol(datanonaoutx)){
       set.seed(i)
-      if(FALSE){#input$rationaselectif
-        samplenaindexi<-sample(samplenaindex,round(nacolratio[i]*nanum))#nanum*input$rationaselect
-      }else{
-        samplenaindexi<-sample(samplenaindex,round(nacolratio[i]*nanum))
-      }
+      samplenaindexi<-sample(samplenaindex,round(nacolratio[i]*nanum))
       datanonaoutxx1[samplenaindexi,i]<-NA
     }
     if(nrow(datanonaoutxx1)!=sum(complete.cases(datanonaoutxx1))){
@@ -1926,8 +1770,6 @@ server<-shinyServer(function(input, output, session){
       library(missForest)
       data_zero1 <- missForest(t(df1), maxiter =10,ntree = input$rfntrees,mtry=floor(row(df1)^(1/3)),verbose = TRUE)
       df<-t(data_zero1$ximp)
-      #data_zero1 <- missForest(df1, maxiter =10,ntree = input$rfntrees,verbose = TRUE)#mtry=floor(row(df1)^(1/3)),
-      #df<-data_zero1$ximp
     }
     else if(method=="pi"){
       width <- 0.3
@@ -1984,11 +1826,6 @@ server<-shinyServer(function(input, output, session){
     for(i in 1:length(namethodsoutx)){
       impdata<-as.numeric(suijidatajieguo[[namethodsoutx[i]]][rowcolindexx])
       truedata<-as.numeric(datanonaoutx[rowcolindexx])
-      #if(length(truedata)==1){
-      #  nrmsejisuan<-abs(impdata - truedata)/truedata
-      #}else{
-      #  nrmsejisuan<-sqrt(mean((impdata - truedata)^{2})/var(truedata))
-      #}
       nrmsejisuan<-sqrt(mean((impdata - truedata)^{2})/var(truedata))
       nrmsei[i]<-nrmsejisuan
     }
@@ -2011,11 +1848,6 @@ server<-shinyServer(function(input, output, session){
       for (k in 1:length(namethodsoutx)) {
         impdata<-as.numeric(suijidatajieguo[[namethodsoutx[k]]][j,colnaindex])
         truedata<-as.numeric(datanonaoutx[j,colnaindex])
-        #if(length(truedata)==1){
-        #  nrmsejisuan<-abs(impdata - truedata)/truedata
-        #}else{
-        #  nrmsejisuan<-sqrt(mean((impdata - truedata)^{2})/var(truedata))
-        #}
         nrmsejisuan<-Metrics::rmse(impdata,truedata)
         nrmsei[k]<-nrmsejisuan
       }
@@ -2070,19 +1902,12 @@ server<-shinyServer(function(input, output, session){
   assessrankout<-reactive({
     nrmsedf<-nrmsedfout()
     nrmsedf$NRMSE_Rank<-rank(nrmsedf$NRMSE)
-    #nrmsedf$Groups<-"NRMS"
-    #colnames(nrmsedf)<-c("Methods","Values","Groups")
     sornrmsedf<-sornrmsedfout()
     sornrmsedf$SOR_Rank<-rank(sornrmsedf$SOR)
-    #sornrmsedf$Groups<-"SOR"
-    #colnames(sornrmsedf)<-c("Methods","Values","Groups")
     avgcor<-avgcorout()
-    avgcor$ACC_OI_Rank<-rank(1/avgcor$Cor_mean)#Cor_Rank
-    #avgcor$Groups<-"ACC"
-    #colnames(avgcor)<-c("Methods","Values","Groups")
+    avgcor$ACC_OI_Rank<-rank(1/avgcor$Cor_mean)
     pssres<-pssresout()
     pssres$PSS_Rank<-rank(pssres$PSS)
-    #pssres$Groups<-"PSS"
     rankdf<-Reduce(function(x, y) merge(x, y, all=TRUE), list(nrmsedf, sornrmsedf, avgcor,pssres))#,accpcresdf
     rankdf1<-rankdf[,c(1,3,5,7,9)]
     #
@@ -2108,7 +1933,6 @@ server<-shinyServer(function(input, output, session){
     datanonaoutx1<-datanonaoutx[!complete.cases(suijinadatadfx),]
     dataoutx1<-dataoutx[!complete.cases(suijinadatadfx),]
     queshidf<-suijinadatadfx[!complete.cases(suijinadatadfx),]
-    #samplesdf<-samplesdataout()
     if(input$loaddatatype==1){
       samplesdf<-samplesdataout()
     }else{
@@ -2156,15 +1980,6 @@ server<-shinyServer(function(input, output, session){
   observeEvent(
     input$mcsbtn_imputation,{
       shinyjs::show(id = "mcsbtn_imputation_hid", anim = FALSE)
-      #output$suijinadatax<-renderDataTable({
-      #  datatable(suijidataout()$suijinadatadf, options = list(pageLength = 20))
-      #})
-      #output$suijinadataxdl<-downloadHandler(
-      #  filename = function(){paste("ArtificialNAdata_",usertimenum,".csv",sep="")},
-      #  content = function(file){
-      #    write.csv(datahasnaout()$suijinadatadf,file)
-      #  }
-      #)
       output$suijidataresults<-renderDataTable({
         suijidatajieguo<-suijidataimputeout()
         namethodsx<-tolower(input$topnmethodindex)#suijijieguoindex
@@ -2347,10 +2162,6 @@ server<-shinyServer(function(input, output, session){
       #######################
     }
   )
-  ##
-  #cvplotheightx<-reactive({
-  #  input$cvplotheight
-  #})
   ###################
   ######################
   output$imputaionIIresui<-renderUI({
@@ -2404,22 +2215,11 @@ server<-shinyServer(function(input, output, session){
     }
   )
   ####pro assessment
-  #proassessallout<-reactive({
-  #  alldatax<<-imputaionyuanshiout()#cvfilterdataout()
-  #  namethodsoutx<-tolower(na.omit(namethodsout()))
-  #
-  #})
   proassessout<-reactive({
     datanonaoutx<<-datanonaout()
-    #objectinfox1<-lapply(rownames(datanonaoutx),function(x){
-    #  strsplit(x,"_")[[1]]
-    #})
-    #objectinfox<-as.data.frame(do.call(rbind,objectinfox1),stringsAsFactors=FALSE)
     namethodsoutx<<-tolower(na.omit(namethodsout()))
-    suijinadatadfx<<-suijidataout()$suijinadatadf#cvfilterdataout()#
-    #rowcolindexx<<-suijidataout()$rowcolindex
-    suijidatajieguo<<-suijidataimputeout()#imputaionyuanshiout()#
-
+    suijinadatadfx<<-suijidataout()$suijinadatadf
+    suijidatajieguo<<-suijidataimputeout()
     pepchargefunc<-function(datalist,nadata,rownamesx,namethods){
       accpcresoutx<-vector()
       accpclist<-accpclist_before<-list()
@@ -2497,7 +2297,6 @@ server<-shinyServer(function(input, output, session){
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
-
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_peppro=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2564,7 +2363,6 @@ server<-shinyServer(function(input, output, session){
           pro_melt<-base::merge(pepseqsm_nona,complexdata,by = "Names",sort=FALSE)
           pep_nona_table<-sort(table(pro_melt$corum_id),decreasing = TRUE)
           cornona_names<-as.numeric(dimnames(pep_nona_table)[[1]][as.numeric(pep_nona_table)>1])
-          #dataiixx<-dataii[pepseqsm_nona$Names%in%pro_melt$Names,]
           corval_nona<-corval_youna<-vector()
           withProgress(message = 'Calculating each object ', style = "notification", detail = "processing...", value = 0,{
             for(i in 1:length(cornona_names)){
@@ -2581,7 +2379,6 @@ server<-shinyServer(function(input, output, session){
               incProgress(1/length(cornona_names), detail = "processing...")
             }
           })
-
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_procomplex=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_procomplex_before=corval_youna)
@@ -2645,10 +2442,6 @@ server<-shinyServer(function(input, output, session){
       proassesslist<-c(proassesslist1,proassesslist4)
     }
     incProgress(1/2, detail = "processing...")
-
-    #withProgress(message = 'Assessment ', style = "notification", detail = "processing...", max =2, value = 1,{
-    #  for(i in 1:2){}
-    #})
     proassesslist
   })
   ####2####
@@ -3625,7 +3418,6 @@ server<-shinyServer(function(input, output, session){
       }
     }
   })
-
 })
 
 shinyApp(ui = ui, server = server)
