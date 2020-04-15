@@ -31,11 +31,28 @@ ui<-renderUI(
             </div>"
         )
       )
+      #column(6,div(
+      #  HTML(
+      #    "<div style='text-align:right;margin-top:20px;margin-right:0px'>
+      #    <a href='#' target=''><img src='imputeRti.png' width='100px'>
+      #    </a>
+      #    </div>"
+      #  )
+      #  )),
+      #column(6,div(
+      #  HTML(
+      #    "<div style='text-align:left;margin-left:-20px'>
+      #    <a href='#' target=''><img src='motifeRlogo.png' height='80px'>
+      #    </a>
+      #    </div>"
+      #  )
+      #  ))
     ),
     tagList(
       tags$head(
         tags$link(rel="stylesheet", type="text/css",href="busystyle.css"),
         tags$script(type="text/javascript", src = "busy.js"),
+        #tags$style(type="text/css","#methodids{margin-left:2%;margin-right:2%}"),
         tags$style(type="text/css", "
                            #loadmessage {
                      position: fixed;
@@ -256,11 +273,17 @@ ui<-renderUI(
             checkboxInput('fenzukaolvif', '2. Count NA by each group or not?', TRUE),
             bsTooltip("fenzukaolvif",'If true, NAguideR will count the NA number in every group, otherwise, it will count the NA number across all groups.',
                       placement = "right",options = list(container = "body")),
+            #conditionalPanel(
+            #  condition = 'input.fenzukaolvif==true',
+            #  checkboxInput("keepzeroif","2.1. Keep NA as zero (0) or not?",FALSE),
+            #  bsTooltip("keepzeroif",'If true, that means when all of the values of one protein/peptide are NA in one group, NAguideR will keep these NA as 0.',
+            #            placement = "right",options = list(container = "body"))
+            #),
             numericInput('naratio', h5('3. NA ratio:'), 0.5,max = 1,min = 0,step = 0.1),
             bsTooltip("naratio",'The threshold of NA ratio. One protein/peptide with NA ratio above this threshold will be removed.',
                       placement = "right",options = list(container = "body")),
             checkboxInput('mediannormif', '4. Median normalization or not?', TRUE),
-            bsTooltip("mediannormif",'If true, the values in expression matrix will be devided by its column median value to make the samples to have the same median.',
+            bsTooltip("mediannormif",'If true, the values in expression matrix will be devided by its column median value to make the samples to have the same median. (Please note, NAguideR was not designed to perform sophisticated normalization analysis. Any normalized datasets with NA can be accepted for analysis).',
                       placement = "right",options = list(container = "body")),
             checkboxInput('logif', '5. Log or not?', TRUE),
             bsTooltip("logif",'If true, the values in expression matrix will be log-transformed with base 2.',
@@ -317,6 +340,13 @@ ui<-renderUI(
               tabPanel(
                 "NA Filter",
                 hr(),
+                #radioButtons(
+                #  "nafilterradiobutton",
+                #  label = h4(""),
+                #  choices = list("Filtered data"=1,"Data without NA"=2,"Data with NA"=3),
+                #  selected = 1,
+                #  inline = TRUE
+                #),
                 actionButton("mcsbtn_nafilter","Calculate",icon("paper-plane"),
                              style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
                 tags$hr(style="border-color: grey;"),
@@ -327,6 +357,21 @@ ui<-renderUI(
                     dataTableOutput("filtereddatadf")
                   )
                 )
+                #conditionalPanel(
+                #  condition = "input.nafilterradiobutton==1",
+                #  downloadButton("filtereddatadfdl","Download"),
+                #  dataTableOutput("filtereddatadf")
+                #),
+                #conditionalPanel(
+                #  condition = "input.nafilterradiobutton==2",
+                #  downloadButton("datanonadl","Download"),
+                #  dataTableOutput("datanona")
+                #),
+                #conditionalPanel(
+                #  condition = "input.nafilterradiobutton==3",
+                #  downloadButton("datahasnadl","Download"),
+                #  dataTableOutput("datahasna")
+                #)
               ),
               tabPanel(
                 "Input data check",
@@ -441,6 +486,8 @@ ui<-renderUI(
                     panel(
                       "",
                       checkboxInput("PIif", "Using perseus imputation method or not?",TRUE),
+                      numericInput("piwidth",h5("Width:"),value = 0.3),
+                      numericInput("pidownshift",h5("Down shift:"),value = 1.8),
                       heading = "Method 7: Perseus imputation (PI)",
                       status = "success",
                       footer = a(href="https://doi.org/10.1038/nmeth.3901",h6("DOI:10.1038/nMeth.3901"),target="_blank")
@@ -473,7 +520,6 @@ ui<-renderUI(
                       checkboxInput("mleif", "Using mle method or not?",TRUE),
                       heading = "Method 9: Maximum likelihood estimation (mle)",
                       status = "success",
-                      #footer = a(href="https://doi.org/10.1111/j.2517-6161.1977.tb01600.x",h6("DOI: 10.1111/j.2517-6161.1977.tb01600.x"),target="_blank")
                       footer = a(href="https://CRAN.R-project.org/package=norm",h6("Package: norm"),target="_blank")
                     )
                   )
@@ -702,7 +748,6 @@ ui<-renderUI(
               bsTooltip("proteomiccriteriaweight",'Please note, a. the numbers of the preset criteria and weights should be equal, which means if you select three criteria, you should type in three weightings; b. the weightings should be separated by semicolons.',
                         placement = "right",options = list(container = "body"))
             ),
-            #uiOutput("suijidataresultsui"),
             tags$hr(style="border-color: grey;"),
             numericInput("pinjiafigheight",h5("Figure height:"),value = 800)
           ),
@@ -717,7 +762,7 @@ ui<-renderUI(
                 dataTableOutput("imputaionIIdata")
               ),
               tabPanel(
-                "Classic criteria",# using complete data
+                "Classic criteria",
                 hr(),
                 actionButton("mcsbtn_imputation","Calculate",icon("paper-plane"),
                              style="color: #fff; background-color: #CD853F; border-color: #CD853F"),
@@ -749,7 +794,7 @@ ui<-renderUI(
                     ),
                     column(
                       width = 6,
-                      h4("5. Average correlation coefficient between original value and imputated value (ACC_OI):"),
+                      h4("5. Average correlation coefficient between original value and imputed value (ACC_OI):"),
                       downloadButton("avgcordl","Download"),
                       dataTableOutput("avgcor")
                     ),
@@ -897,6 +942,30 @@ ui<-renderUI(
                 hr(),
                 uiOutput("finalcheck1"),
                 uiOutput("finalcheck2")
+              ),
+              tabPanel(
+                "Targeted check (Optional)",
+                div(
+                  style="text-align:left;margin-top:15px;margin-left:10px;margin-right:300px;font-size:90%;",
+                  HTML("Please note: This function is optinal and designed for many biologists with specific experimental aims, for example, some users may want to check a particular peptide/protein
+                       (i.e. spiked-in standard peptides, proteins, or known housekeeping proteins like beta-actin, etc.) before and after imputation.")
+                ),
+                hr(),
+                div(
+                  style="text-align:left;margin-left:150px;",
+                  textInput("targettext",h5("Please type in a protein id or peptide sequance as that in the original expression data:"),value = "", width='450px',placeholder = "such as P29692 or ESVPEFPLS[Phospho (STY)]PPK")
+                ),
+                actionButton("mcsbtn_targettext","Check",icon("paper-plane"), width='150px',
+                             style="color: #fff; background-color: #CD853F; border-color: #CD853F;margin-left:300px;"),
+                hr(),
+                hidden(
+                  div(
+                    id="mcsbtn_targettext_hid",
+                    downloadButton("targettextplotdl","Download"),
+                    hr(),
+                    plotOutput("targettextplot")
+                  )
+                )
               )
             )
           )
@@ -958,25 +1027,25 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               "There are four types of proteomics expression data supported in NAguideR ('Peptides+Charges+Proteins', 'Peptides+Charges', 'Peptides+Proteins', 'Proteins'), among which the main differences are the first few columns.
-              In addition, users may upload other kinds of omics data (i.e. Genomics, Metabolomics), they can choose the fifth type ('Others'), please note, the fifth type can not obtain the results based on those protomic criteria."
+              In addition, users may upload other kinds of omics data (i.e. Genomics, Metabolomics), they can choose the fifth type ('Others'), please note, the fifth type can not generate the results based on those protomic criteria."
             ),
-            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.1 Expression data with peptide sequences, peptide charge status, and protein ids</b>")),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.1 Expression data with peptide sequences, peptide charge states, and protein ids</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              HTML("In this situation, peptide sequences, peptide charge status, and protein ids are sequentially provided in the first three columns of input file. Peptide sequences in
-              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status. The protein ids
-              in the third column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the fourth column on, they are peptides/proteins expression intensity
-              in every sample. The data structure is shown as below:")
+              HTML("In this situation, peptide sequences, peptide charge states, and protein ids are sequentially provided in the first three columns of input file. Peptide sequences in
+              the first column can be peptides with any post-translational modification (PTM, written in any routine format) or stripped peptides (without PTM). The second column is peptide charge states. The protein ids
+              in the third column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the fourth column, peptides/proteins expression intensity or signal abundance in every sample should be listed.
+              The data structure is shown as below:")
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='datapreparepng_Page1.png',height=700))),
-            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.2 Expression data with peptide sequences and peptide charge status</b>")),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1.2 Expression data with peptide sequences and peptide charge states</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              HTML("Similar to the above situation, peptide sequences and peptide charge status are sequentially provided in the first two columns of input file. Peptide sequences in
-              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge status.
-              From the third column on, they are peptides/proteins expression intensity in every sample. The data structure is shown as below:")
+              HTML("Similar to the above situation, peptide sequences and peptide charge states are sequentially provided in the first two columns of input file. Peptide sequences in
+              the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The second column is peptide charge states.
+              From the third column, peptides/proteins expression intensity or signal abundance in every sample should be listed. The data structure is shown as below:")
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -986,8 +1055,7 @@ ui<-renderUI(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("Under this circumstance, peptide sequences, and protein ids are sequentially provided in the first two columns of input file. Peptide sequences in
               the first column can be peptides with post-translational modification (PTM) or stripped peptides (without PTM). The protein ids
-              in the second column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the third column on, they are peptides/proteins expression intensity
-              in every sample. The data structure is shown as below:")
+              in the second column should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the third column, peptides/proteins expression intensity or signal abundance in every sample should be listed. The data structure is shown as below:")
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -996,8 +1064,7 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("In this situation, protein ids are provided in the first columns of input file. The protein ids here
-              should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the second column on, they are peptides/proteins expression intensity
-              in every sample. The data structure is shown as below:")
+              should be <a href='https://www.uniprot.org/' target='_blank'>UniProt</a> ids. From the second column,peptides/proteins expression intensity or signal abundance in every sample should be listed. The data structure is shown as below:")
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -1006,7 +1073,7 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               HTML("If users want to use NAguideR for other omics data (i.e. genomics, metabolomics), gene/metabolite ids/names should be provided in the first columns of input file.
-              From the second column on, they are genes/metabolites expression intensity in every sample. The data structure may be shown as below:")
+              From the second column, genes/metabolites expression intensity or signal abundance in every sample should be listed. The data structure may be shown as below:")
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -1014,7 +1081,7 @@ ui<-renderUI(
             div(style="text-align:left;margin-top:10px;font-size:130%;",HTML("<b>2.1.2 Sample information data</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              "Sample information here means users should identify sample group information. The sample names are in the first column and their orders are same as those in the exression data. Group information is in the second column. The data structure is shown as below:"
+              "Sample information here means that users should provide sample group identity information. This information could e.g., enable filtration strategy for different group respectively in the quality control step. The sample names are in the first column and their orders are same as those in the expression data. Group information is in the second column. The data structure is shown as below:"
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -1072,7 +1139,7 @@ ui<-renderUI(
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
               "The tables and figures are provided here under the four classic criteria. 1. This table shows the comprehensive ranks of every imputation method; 2-5, the tables show the scores of every imputation method based on 'Normalized root mean squared Error (NRMSE)',
-              'NRMSE-based sum of ranks (SOR)', 'Procrustes sum of squared errors (PSS)', and 'Average correlation coefficient between original value and imputated value (ACC_OI)', respectively; 6. Figures here show the normalized scores of every imputation method
+              'NRMSE-based sum of ranks (SOR)', 'Procrustes sum of squared errors (PSS)', and 'Average correlation coefficient between original value and imputed value (ACC_OI)', respectively; 6. Figures here show the normalized scores of every imputation method
               under the four classic criteria. 'Normalized Values' here means every score divides by corresponding max value."
             ),
             div(style="text-align:center;margin-top:8px;",
@@ -1090,7 +1157,7 @@ ui<-renderUI(
                   img(src='criteriaresultspng_Page2.png',width=1100))),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;margin-bottom:30px;",
-              HTML("If you have any questions, comments or suggestions about NAguideR, please feel free to contact: <u>wssdandan2009@outlook.com</u>. We really appreciate that you use NAguideR, and your suggestions should be valuable to its improvement in the future.")
+              HTML("If you have any questions, comments or suggestions about NAguideR, please feel free to contact: <u>wsslearning@omicsolution.com</u>. We really appreciate that you use NAguideR, and your suggestions should be valuable to its improvement in the future.")
             ),
             icon = icon("file-alt")
           ),
@@ -1123,15 +1190,16 @@ server<-shinyServer(function(input, output, session){
     }
 
     fluidRow(
+      #div(style="text-align:center",h1("~~Welcome~~")),
       div(
         id="mainbody",
         column(3),
         column(
-          6,#strong("NAguideR"),
+          6,
           div(style="text-align:left;margin-top:20px;font-size:140%;color:darkred",
               HTML("~~ <em>Dear Users, Welcome to NAguideR</em> ~~")),
           div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px",
-              HTML("<b>NAguideR</b> is a web-based tool, which integrates 23 common missing value imputation methods and provides two categories of evaluation criteria (4 classic criteria and 4 proteomic criteria) to assess the imputation performance of various methods. We hope this tool could help scientists impute the missing values systematically and present valuable guidance to select one proper method for their own data. In addition, this tool supports both online access and local installation.")),
+              HTML("<b>NAguideR</b> is a web-based tool, which integrates 23 commonly used missing value imputation methods and provides two categories of evaluation criteria (4 classic criteria and 4 proteomic criteria) to assess the imputation performance of various methods. We hope this tool could help scientists impute the missing values systematically and present valuable guidance to select one proper method for their own data. In addition, this tool supports both online access and local installation.")),
           div(style="text-align:center;margin-top: 50px",
               a(href='#',
                 img(src='NAguideR_home_small.jpg',height=imgwidth))),
@@ -1143,7 +1211,7 @@ server<-shinyServer(function(input, output, session){
               HTML("&nbsp;&nbsp;4. Performance evaluation;<br />"),
               HTML("After this, NAguideR can provide valuable guidance for users to select one proper method for their own data based on the evaluation results. Detailed introduction can be found in the <em><b>Help</b></em> part.<br />"),
               HTML("<br />"),
-              HTML("Finally, NAguideR is developed by <a href='https://shiny.rstudio.com/' target='_blank'>R shiny (Version 1.3.2)</a>, and is free and open to all users with no login requirement. It can be readily accessed by all popular web browsers including Google Chrome, Mozilla Firefox, Safari and Internet Explorer 10 (or later), and so on. We would highly appreciate that if you could send your feedback about any bug or feature request to Shisheng Wang at <u>wssdandan2009@outlook.com</u>.")),
+              HTML("Finally, NAguideR is developed by <a href='https://shiny.rstudio.com/' target='_blank'>R shiny (Version 1.3.2)</a>, and is free and open to all users with no login requirement. It can be readily accessed by all popular web browsers including Google Chrome, Mozilla Firefox, Safari and Internet Explorer 10 (or later), and so on. We would highly appreciate that if you could send your feedback about any bug or feature request to Shisheng Wang at <u>wsslearning@omicsolution.com</u>.")),
           div(style="text-align:center;margin-top:20px;font-size:140%;color:darkgreen",
               HTML("<br />"),
               HTML("^_^ <em>Enjoy yourself in NAguideR</em> ^_^")),
@@ -1151,13 +1219,12 @@ server<-shinyServer(function(input, output, session){
           div(style="text-align:center;margin-top: 20px;font-size:100%",
               HTML(" &copy; 2019 <a href='https://www.yslproteomics.org/' target='_blank'>Yansheng Liu's Group</a> and <a href='http://english.cd120.com/' target='_blank'>Hao Yang's Group</a>. All Rights Reserved.")),
           div(style="text-align:center;margin-bottom: 20px;font-size:100%",
-              HTML("&nbsp;&nbsp; Created by Shisheng Wang. E-mail: <u>wssdandan2009@outlook.com</u>."))
+              HTML("&nbsp;&nbsp; Created by Shisheng Wang. E-mail: <u>wsslearning@omicsolution.com</u>."))
         ),
         column(3)
       )
     )
   })
-  #show data
   examplepeakdatas<-reactive({
     if(input$datatypex==1){
       dataread<-read.csv("Phospho_Exampledata1.csv",stringsAsFactors = F,check.names = F)
@@ -1198,9 +1265,9 @@ server<-shinyServer(function(input, output, session){
     }
   )
   peaksdataout<-reactive({
-    files <<- input$file1
+    files <- input$file1
     if (is.null(files)){
-      dataread<-data.frame(Description="NAguideR detects that you do not upload your data. Please upload the expression data, or load the example data to check first.")
+      dataread<-data.frame(Description="NAguideR detects that you did not upload your data. Please upload the expression data, or load the example data to check first.")
       list(yuanshidf=dataread)
     }else{
       if (input$fileType_Input == "3"){
@@ -1245,7 +1312,6 @@ server<-shinyServer(function(input, output, session){
         dataread1<-dataread[,-1]
         dataread2<-dataread[,1,drop=FALSE]
       }
-      #dataread2<<-dataread2
       rowpaste<-apply(dataread2,1,function(x){
         paste0(x,collapse = "_")
       })
@@ -1253,12 +1319,11 @@ server<-shinyServer(function(input, output, session){
       rownames(dataread1x)<-rowpaste[!duplicated(rowpaste)]
       list(yuanshidf=dataread,yuanshidata=dataread1x,objectinfo=dataread2)
     }
-    #dataread<<-dataread
   })
   samplesdataout<-reactive({
     files <- input$mchuanshaodxyibanfile1_fenzu
     if (is.null(files)){
-      dataread<-data.frame(Description="NAguideR detects that you do not upload your data. Please upload the sample information data, or load the example data to check first.")
+      dataread<-data.frame(Description="NAguideR detects that you did not upload your data. Please upload the sample information data, or load the example data to check first.")
     }else{
       if (input$mchuanshaodxyibanfileType_Input_fenzu == "3"){
         dataread<-read.xlsx(files$datapath,rowNames=input$mchuanshaodxyibanfirstcol_fenzu,
@@ -1289,7 +1354,7 @@ server<-shinyServer(function(input, output, session){
 
   output$peaksdata<-renderDataTable({
     library(data.table)
-    aaxxc<<-peaksdataout()
+    aaxxc<-peaksdataout()
     if(input$loaddatatype==1){
       datatable(peaksdataout()$yuanshidf, options = list(pageLength = 10))
     }else{
@@ -1336,7 +1401,6 @@ server<-shinyServer(function(input, output, session){
         dataread1<-dataread[,-1]
         dataread2<-dataread[,1,drop=FALSE]
       }
-      #dataread2<<-dataread2
       rowpaste<-apply(dataread2,1,function(x){
         paste0(x,collapse = "_")
       })
@@ -1347,9 +1411,6 @@ server<-shinyServer(function(input, output, session){
 
     nadatax[nadatax==input$natype]<-NA
     nadatax[] <- lapply(nadatax, function(x) as.numeric(as.character(x)))
-    #if(input$logif){
-    #  nadatax<-log2(nadatax+1)
-    #}
     nadatax
   })
   plot_missing_xiu<-function (data, title = NULL){
@@ -1488,8 +1549,8 @@ server<-shinyServer(function(input, output, session){
     list(datadfchuli=datadfchuli,datadfchuli_nonorm=datadfchulix)
   })
   cvfilterdataout<-reactive({
-    dfxx<<-filtereddatadfout()$datadfchuli
-    dfx1<<-filtereddatadfout()$datadfchuli_nonorm
+    dfxx<-filtereddatadfout()$datadfchuli
+    dfx1<-filtereddatadfout()$datadfchuli_nonorm
     if(input$mediannormif){
       medianval<-apply(dfx1,2,function(x) {median(x,na.rm = TRUE)})
       dfx<-sweep(dfx1,2,medianval,FUN = "/")
@@ -1497,9 +1558,9 @@ server<-shinyServer(function(input, output, session){
       dfx<-dfx1
     }
     if(input$loaddatatype==1){
-      samplesdf<<-samplesdataout()
+      samplesdf<-samplesdataout()
     }else{
-      samplesdf<<-examplesampledatas()
+      samplesdf<-examplesampledatas()
     }
     grnames<-unique(samplesdf$Groups)
     cvdf<-cvifdf<-NULL
@@ -1564,7 +1625,6 @@ server<-shinyServer(function(input, output, session){
       )
     }
   )
-  #Check input data
   output$inputdatacheck1<-renderUI({
     yuanshiinputdata<-nadataout()
     filtereddata<-cvfilterdataout()
@@ -1772,8 +1832,8 @@ server<-shinyServer(function(input, output, session){
       df<-t(data_zero1$ximp)
     }
     else if(method=="pi"){
-      width <- 0.3
-      downshift <- 1.8
+      width <- input$piwidth
+      downshift <- input$pidownshift
       for(i in 1:ncol(df1)){
         temp <- df1[[i]]
         if(sum(is.na(temp))>0){
@@ -1801,9 +1861,9 @@ server<-shinyServer(function(input, output, session){
     df
   }
   suijidataimputeout<-reactive({
-    namethodsoutx<<-tolower(na.omit(namethodsout()))
+    namethodsoutx<-tolower(na.omit(namethodsout()))
     namethodsoutx1<-c(namethodsoutx,"Finish")
-    suijinadatadfx<<-suijidataout()$suijinadatadf
+    suijinadatadfx<-suijidataout()$suijinadatadf
     rowcolindexx<-suijidataout()$rowcolindex
     withProgress(message = 'Imputing data with ', style = "notification", detail = paste0("1 ",namethodsoutx[1]), value = 0,{
       suijidataimputelist<-list()
@@ -1821,7 +1881,7 @@ server<-shinyServer(function(input, output, session){
     namethodsoutx<-tolower(na.omit(namethodsout()))
     suijinadatadfx<-suijidataout()$suijinadatadf
     rowcolindexx<-suijidataout()$rowcolindex
-    suijidatajieguo<<-suijidataimputeout()
+    suijidatajieguo<-suijidataimputeout()
     nrmsei<-vector()
     for(i in 1:length(namethodsoutx)){
       impdata<-as.numeric(suijidatajieguo[[namethodsoutx[i]]][rowcolindexx])
@@ -1982,13 +2042,13 @@ server<-shinyServer(function(input, output, session){
       shinyjs::show(id = "mcsbtn_imputation_hid", anim = FALSE)
       output$suijidataresults<-renderDataTable({
         suijidatajieguo<-suijidataimputeout()
-        namethodsx<-tolower(input$topnmethodindex)#suijijieguoindex
+        namethodsx<-tolower(input$topnmethodindex)
         dataoutx<-suijidatajieguo[[namethodsx]]
         datatable(dataoutx, options = list(pageLength = 20))
       })
       output$imputeIplot<-renderPlot({
         cvqianhoudf2<-imputeIplotdataout()$cvqianhoudf2
-        namethodsx<-tolower(input$topnmethodindex)#suijijieguoindex
+        namethodsx<-tolower(input$topnmethodindex)
         withProgress(message = 'Figure ', style = "notification", detail = "generating...", max =2, value = 1,{
           ppx1<-ggplot(cvqianhoudf2, aes(x=Index, y=CV)) +
             geom_line(aes(group=Index),col="grey80",size=1)+
@@ -2101,7 +2161,7 @@ server<-shinyServer(function(input, output, session){
         pssres<-pssresout()
         pssres$Groups<-"PSS"
         colnames(pssres)<-c("Methods","Values","Groups")
-        assessplotdf<<-rbind(nrmsedf,sornrmsedf,avgcor,pssres)
+        assessplotdf<-rbind(nrmsedf,sornrmsedf,avgcor,pssres)
         pdx <- assessplotdf %>%group_by(Groups) %>%ungroup() %>%arrange(Groups, Values) %>%mutate(order = row_number())
         ggplot(pdx, aes(order, Values, color=Groups)) +
           geom_point(aes(shape=Groups), size=5) +
@@ -2158,18 +2218,14 @@ server<-shinyServer(function(input, output, session){
           write.csv(assessrankout(),file)#,row.names = F
         }
       )
-      ############
-      #######################
     }
   )
-  ###################
-  ######################
   output$imputaionIIresui<-renderUI({
-    namethodsoutx<<-tolower(na.omit(namethodsout()))
+    namethodsoutx<-tolower(na.omit(namethodsout()))
     selectInput("topnmethodindex","",choices = namethodsoutx)
   })
   imputaionyuanshiout<-reactive({
-    yuanshidf<<-cvfilterdataout()
+    yuanshidf<-cvfilterdataout()
     namethodsoutx<-tolower(na.omit(namethodsout()))
     namethodsoutx1<-c(namethodsoutx,"Finish")
     withProgress(message = 'Imputing data with ', style = "notification", detail = paste0("1 ",namethodsoutx[1]," processing..."), value = 0,{
@@ -2184,7 +2240,7 @@ server<-shinyServer(function(input, output, session){
     originaldataimputelist
   })
   imputaionIIdataout<-reactive({
-    yuanshiimputlist<<-imputaionyuanshiout()
+    yuanshiimputlist<-imputaionyuanshiout()
     yuanshiimputlist1<-yuanshiimputlist[[input$topnmethodindex]]
     yuanshiimputlist1
   })
@@ -2200,9 +2256,6 @@ server<-shinyServer(function(input, output, session){
         easyClose = TRUE,
         footer = modalButton("OK")
       ))
-      #output$imputaionIIdata2<-renderDataTable({
-      #  datatable(imputaionIIdataout(), options = list(pageLength = 20))
-      #})
       output$imputaionIIdata<-renderDataTable({
         datatable(imputaionIIdataout(), options = list(pageLength = 20))
       })
@@ -2214,12 +2267,12 @@ server<-shinyServer(function(input, output, session){
       )
     }
   )
-  ####pro assessment
   proassessout<-reactive({
-    datanonaoutx<<-datanonaout()
-    namethodsoutx<<-tolower(na.omit(namethodsout()))
-    suijinadatadfx<<-suijidataout()$suijinadatadf
-    suijidatajieguo<<-suijidataimputeout()
+    datanonaoutx<-datanonaout()
+    namethodsoutx<-tolower(na.omit(namethodsout()))
+    suijinadatadfx<-suijidataout()$suijinadatadf
+    suijidatajieguo<-suijidataimputeout()
+
     pepchargefunc<-function(datalist,nadata,rownamesx,namethods){
       accpcresoutx<-vector()
       accpclist<-accpclist_before<-list()
@@ -2297,6 +2350,7 @@ server<-shinyServer(function(input, output, session){
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
+
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_peppro=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2317,7 +2371,6 @@ server<-shinyServer(function(input, output, session){
           pro_melt<-base::merge(pepseqsm_nona,complexdata,by = "Names",sort=FALSE)
           pep_nona_table<-sort(table(pro_melt$corum_id),decreasing = TRUE)
           cornona_names<-as.numeric(dimnames(pep_nona_table)[[1]][as.numeric(pep_nona_table)>1])
-          #dataiixx<-dataii[pepseqsm_nona$Names%in%pro_melt$Names,]
           corval_nona<-corval_youna<-vector()
           withProgress(message = 'Calculating each object ', style = "notification", detail = "processing...",
                        value = 0,max = length(cornona_names),{
@@ -2342,7 +2395,6 @@ server<-shinyServer(function(input, output, session){
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
-
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_CORUM=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2363,6 +2415,7 @@ server<-shinyServer(function(input, output, session){
           pro_melt<-base::merge(pepseqsm_nona,complexdata,by = "Names",sort=FALSE)
           pep_nona_table<-sort(table(pro_melt$corum_id),decreasing = TRUE)
           cornona_names<-as.numeric(dimnames(pep_nona_table)[[1]][as.numeric(pep_nona_table)>1])
+          #dataiixx<-dataii[pepseqsm_nona$Names%in%pro_melt$Names,]
           corval_nona<-corval_youna<-vector()
           withProgress(message = 'Calculating each object ', style = "notification", detail = "processing...", value = 0,{
             for(i in 1:length(cornona_names)){
@@ -2379,6 +2432,7 @@ server<-shinyServer(function(input, output, session){
               incProgress(1/length(cornona_names), detail = "processing...")
             }
           })
+
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_procomplex=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_procomplex_before=corval_youna)
@@ -2400,13 +2454,13 @@ server<-shinyServer(function(input, output, session){
                                    rownamesx=rownames(suijinadatadfx),namethods=namethodsoutx)
     }
     if(input$datatypex==2){
-      complexdata<<-read.csv("uniprot_corum_mapping.txt",sep = "\t",stringsAsFactors = FALSE)
+      complexdata<-read.csv("uniprot_corum_mapping.txt",sep = "\t",stringsAsFactors = FALSE)
       colnames(complexdata)<-c("Names","corum_id")
       proassesslist1<-pepprofunc(datalist=suijidatajieguo,nadata=suijinadatadfx,
                                  rownamesx=rownames(suijinadatadfx),namethods=namethodsoutx)
       proassesslist2<-procomplexfunc(datalist=suijidatajieguo,nadata=suijinadatadfx,rownamesx=rownames(suijinadatadfx),
                                      namethods=namethodsoutx,complexdata=complexdata)
-      humapdata<<-read.csv("uniprotclust191015.csv",stringsAsFactors = FALSE)
+      humapdata<-read.csv("uniprotclust191015.csv",stringsAsFactors = FALSE)
       colnames(humapdata)<-c("Names","corum_id")
       proassesslist3<-prohumapfunc(datalist=suijidatajieguo,nadata=suijinadatadfx,rownamesx=rownames(suijinadatadfx),
                                    namethods=namethodsoutx,complexdata=humapdata)
@@ -3334,7 +3388,7 @@ server<-shinyServer(function(input, output, session){
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
             HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
-            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+            HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else if(input$datatypex==2){
       procriteria2<-proassessout()$pepproresdf
@@ -3355,7 +3409,7 @@ server<-shinyServer(function(input, output, session){
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
             HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
-            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+            HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else if(input$datatypex==3){
       procriteria1<-proassessout()$accpcresdf
@@ -3377,7 +3431,7 @@ server<-shinyServer(function(input, output, session){
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
             HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
-            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+            HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else if(input$datatypex==4){
       procriteria3<-proassessout()$procomplexresdf
@@ -3397,7 +3451,7 @@ server<-shinyServer(function(input, output, session){
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
             HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
-            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+            HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else{
       allcriteriafc<-classiccriteriafc
@@ -3414,10 +3468,219 @@ server<-shinyServer(function(input, output, session){
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
             HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
-            HTML("&nbsp;&nbsp;4. Please contact us for help: <u>yansheng.liu@yale.edu</u> or <u>yanghao@scu.edu.cn</u>."))
+            HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }
   })
+
+  observeEvent(
+    input$mcsbtn_targettext,{
+      shinyjs::show(id = "mcsbtn_targettext_hid", anim = FALSE)
+      output$targettextplot<-renderPlot({
+        targettextx1<-isolate(input$targettext)
+        targettextx<-gsub("\\)","\\\\)",gsub("\\(","\\\\(",gsub("\\]","\\\\]",gsub("\\[","\\\\[",targettextx1))))
+        selectmethod<-input$topnmethodindex
+        namethodsoutx<-tolower(na.omit(namethodsout()))
+        yuanshidf<-cvfilterdataout()
+        yuanshiimputlist<-imputaionyuanshiout()
+        yuanshidf1<-yuanshidf[!complete.cases(yuanshidf),]
+        whichpro1<-grep(targettextx,rownames(yuanshidf1),perl = TRUE)
+        datanonaoutx<-datanonaout()
+        suijinadatadfx<-suijidataout()$suijinadatadf
+        suijidatajieguo<-suijidataimputeout()
+        suijinadatadfx1<-suijinadatadfx[!complete.cases(suijinadatadfx),]
+        whichpro2<-grep(targettextx,rownames(suijinadatadfx1),perl = TRUE)
+        suijinadatadfx2<-suijinadatadfx[complete.cases(suijinadatadfx),]
+        whichpro3<-grep(targettextx,rownames(suijinadatadfx2),perl = TRUE)
+        #
+        targetdfall<-NULL
+        targetnanum1<-targetnanum2<-0
+        if(length(whichpro1)>0){
+          shuju1<-reshape2::melt(t(yuanshidf1[whichpro1,]))
+          shuju1$Group<-"Original"
+          whichpro1name<-rownames(yuanshidf1)[whichpro1]
+          whichprox1df<-yuanshiimputlist[[selectmethod]]
+          whichprox1df1<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+          shuju2<-reshape2::melt(t(whichprox1df1))
+          shuju2$Group<-"Imputed"
+          shuju3<-rbind(shuju1,shuju2)
+          targetdfall<-rbind(targetdfall,shuju3)
+          targetnanum1<-max(apply(yuanshidf1[whichpro1,],1,function(x){sum(is.na(x))}))
+        }
+        if(length(whichpro2)>0){
+          whichpro1name<-rownames(suijinadatadfx1)[whichpro2]
+          shuju1<-reshape2::melt(t(datanonaoutx[rownames(datanonaoutx)%in%whichpro1name,]))
+          shuju1$Group<-"Original"
+          whichprox1df<-suijidatajieguo[[selectmethod]]
+          whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+          shuju2<-reshape2::melt(t(whichprox1df2))
+          shuju2$Group<-"Imputed"
+          shuju3<-rbind(shuju1,shuju2)
+          targetdfall<-rbind(targetdfall,shuju3)
+          targetnanum2<-max(apply(suijinadatadfx1[whichpro2,],1,function(x){sum(is.na(x))}))
+        }
+        if(is.null(targetdfall)){
+          if(length(whichpro3)>0){
+            shuju1<-reshape2::melt(t(suijinadatadfx2[whichpro3,]))
+            shuju1$Group<-"Original"
+            whichpro1name<-rownames(suijinadatadfx2)[whichpro3]
+            whichprox1df<-suijidatajieguo[[selectmethod]]
+            whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+            shuju2<-reshape2::melt(t(whichprox1df2))
+            shuju2$Group<-"Imputed"
+            shuju3<-rbind(shuju1,shuju2)
+            targetdfall<-rbind(targetdfall,shuju3)
+            targetdfall$Group<-factor(targetdfall$Group,levels = c("Original","Imputed"))
+            ggplot(data=targetdfall, aes(x=Var1, y=value, fill=Group)) +
+              geom_bar(stat="identity", color="black", position=position_dodge())+
+              theme_bw()+
+              facet_wrap(~Var2,ncol = 2)+
+              theme(axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.3),
+                    plot.title = element_text(size=18),
+                    plot.subtitle=element_text(size=15),
+                    strip.text.x = element_text(size = 13))+
+              labs(title="Target protein/peptide was not missed in any sample.",
+                   subtitle=paste0("Imputation method: ",selectmethod),
+                   x="Samples",y="Values")
+          }else{
+            plot(0,xlim=c(-1,1),ylim=c(-1,1), xaxt = "n", bty = "n", yaxt = "n", type = "n", xlab = "", ylab = "")
+            text(0,0.5,labels = "Target protein/peptide not found. Please make sure the item is included in the input table!",cex=2)
+          }
+        }else{
+          if(length(whichpro3)>0){
+            shuju1<-reshape2::melt(t(suijinadatadfx2[whichpro3,]))
+            shuju1$Group<-"Original"
+            whichpro1name<-rownames(suijinadatadfx2)[whichpro3]
+            whichprox1df<-suijidatajieguo[[selectmethod]]
+            whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+            shuju2<-reshape2::melt(t(whichprox1df2))
+            shuju2$Group<-"Imputed"
+            shuju3<-rbind(shuju1,shuju2)
+            targetdfall<-rbind(targetdfall,shuju3)
+          }
+          targetdfall$Group<-factor(targetdfall$Group,levels = c("Original","Imputed"))
+          ggplot(data=targetdfall, aes(x=Var1, y=value, fill=Group)) +
+            geom_bar(stat="identity", color="black", position=position_dodge())+
+            theme_bw()+
+            facet_wrap(~Var2,ncol = 2)+
+            theme(axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.3),
+                  plot.title = element_text(size=16),
+                  plot.subtitle=element_text(size=14),
+                  strip.text.x = element_text(size = 13))+
+            labs(title=paste0("Target protein/peptide was missed in N=",max(c(targetnanum1,targetnanum2)),
+                              " samples among all N=",ncol(yuanshidf)," samples"),
+                 subtitle=paste0("Imputation method: ",selectmethod),
+                 x="Samples",y="Values")
+        }
+      },height = pinjiafigheightx)
+      targettextplotout<-reactive({
+        targettextx1<-isolate(input$targettext)
+        targettextx<-gsub("\\)","\\\\)",gsub("\\(","\\\\(",gsub("\\]","\\\\]",gsub("\\[","\\\\[",targettextx1))))
+        selectmethod<-input$topnmethodindex
+        namethodsoutx<-tolower(na.omit(namethodsout()))
+        yuanshidf<-cvfilterdataout()
+        yuanshiimputlist<-imputaionyuanshiout()
+        yuanshidf1<-yuanshidf[!complete.cases(yuanshidf),]
+        whichpro1<-grep(targettextx,rownames(yuanshidf1),perl = TRUE)
+        datanonaoutx<-datanonaout()
+        suijinadatadfx<-suijidataout()$suijinadatadf
+        suijidatajieguo<-suijidataimputeout()
+        suijinadatadfx1<-suijinadatadfx[!complete.cases(suijinadatadfx),]
+        whichpro2<-grep(targettextx,rownames(suijinadatadfx1),perl = TRUE)
+        suijinadatadfx2<-suijinadatadfx[complete.cases(suijinadatadfx),]
+        whichpro3<-grep(targettextx,rownames(suijinadatadfx2),perl = TRUE)
+        #
+        targetdfall<-NULL
+        targetnanum1<-targetnanum2<-0
+        if(length(whichpro1)>0){
+          shuju1<-reshape2::melt(t(yuanshidf1[whichpro1,]))
+          shuju1$Group<-"Original"
+          whichpro1name<-rownames(yuanshidf1)[whichpro1]
+          whichprox1df<-yuanshiimputlist[[selectmethod]]
+          whichprox1df1<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+          shuju2<-reshape2::melt(t(whichprox1df1))
+          shuju2$Group<-"Imputed"
+          shuju3<-rbind(shuju1,shuju2)
+          targetdfall<-rbind(targetdfall,shuju3)
+          targetnanum1<-max(apply(yuanshidf1[whichpro1,],1,function(x){sum(is.na(x))}))
+        }
+        if(length(whichpro2)>0){
+          whichpro1name<-rownames(suijinadatadfx1)[whichpro2]
+          shuju1<-reshape2::melt(t(datanonaoutx[rownames(datanonaoutx)%in%whichpro1name,]))
+          shuju1$Group<-"Original"
+          whichprox1df<-suijidatajieguo[[selectmethod]]
+          whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+          shuju2<-reshape2::melt(t(whichprox1df2))
+          shuju2$Group<-"Imputed"
+          shuju3<-rbind(shuju1,shuju2)
+          targetdfall<-rbind(targetdfall,shuju3)
+          targetnanum2<-max(apply(suijinadatadfx1[whichpro2,],1,function(x){sum(is.na(x))}))
+        }
+        if(is.null(targetdfall)){
+          if(length(whichpro3)>0){
+            shuju1<-reshape2::melt(t(suijinadatadfx2[whichpro3,]))
+            shuju1$Group<-"Original"
+            whichpro1name<-rownames(suijinadatadfx2)[whichpro3]
+            whichprox1df<-suijidatajieguo[[selectmethod]]
+            whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+            shuju2<-reshape2::melt(t(whichprox1df2))
+            shuju2$Group<-"Imputed"
+            shuju3<-rbind(shuju1,shuju2)
+            targetdfall<-rbind(targetdfall,shuju3)
+            targetdfall$Group<-factor(targetdfall$Group,levels = c("Original","Imputed"))
+            ggplot(data=targetdfall, aes(x=Var1, y=value, fill=Group)) +
+              geom_bar(stat="identity", color="black", position=position_dodge())+
+              theme_bw()+
+              facet_wrap(~Var2,ncol = 2)+
+              theme(axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.3),
+                    plot.title = element_text(size=18),
+                    plot.subtitle=element_text(size=15),
+                    strip.text.x = element_text(size = 13))+
+              labs(title="Target protein/peptide was not missed in any sample.",
+                   subtitle=paste0("Imputation method: ",selectmethod),
+                   x="Samples",y="Values")
+          }else{
+            plot(0,xlim=c(-1,1),ylim=c(-1,1), xaxt = "n", bty = "n", yaxt = "n", type = "n", xlab = "", ylab = "")
+            text(0,0.5,labels = "Target protein/peptide not found. Please make sure the item is included in the input table!",cex=2)
+          }
+        }else{
+          if(length(whichpro3)>0){
+            shuju1<-reshape2::melt(t(suijinadatadfx2[whichpro3,]))
+            shuju1$Group<-"Original"
+            whichpro1name<-rownames(suijinadatadfx2)[whichpro3]
+            whichprox1df<-suijidatajieguo[[selectmethod]]
+            whichprox1df2<-whichprox1df[rownames(whichprox1df)%in%whichpro1name,]
+            shuju2<-reshape2::melt(t(whichprox1df2))
+            shuju2$Group<-"Imputed"
+            shuju3<-rbind(shuju1,shuju2)
+            targetdfall<-rbind(targetdfall,shuju3)
+          }
+          targetdfall$Group<-factor(targetdfall$Group,levels = c("Original","Imputed"))
+          ggplot(data=targetdfall, aes(x=Var1, y=value, fill=Group)) +
+            geom_bar(stat="identity", color="black", position=position_dodge())+
+            theme_bw()+
+            facet_wrap(~Var2,ncol = 2)+
+            theme(axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.3),
+                  plot.title = element_text(size=16),
+                  plot.subtitle=element_text(size=14),
+                  strip.text.x = element_text(size = 13))+
+            labs(title=paste0("Target protein/peptide was missed in N=",max(c(targetnanum1,targetnanum2)),
+                              " samples among all N=",ncol(yuanshidf)," samples"),
+                 subtitle=paste0("Imputation method: ",selectmethod),
+                 x="Samples",y="Values")
+        }
+      })
+      output$targettextplotdl<-downloadHandler(
+        filename = function(){paste("TargetedCheck_",usertimenum,".pdf",sep="")},
+        content = function(file){
+          pdf(file, width = pinjiafigheightx()/100+2,height = pinjiafigheightx()/100)
+          print(targettextplotout())
+          dev.off()
+        }
+      )
+    }
+  )
+
 })
 
 shinyApp(ui = ui, server = server)
