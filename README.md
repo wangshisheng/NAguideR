@@ -49,5 +49,5 @@ Enjoy yourself^_^
 
 ## Contact
 You could push an issue on this github. And optionally, please feel free to sent me an e-mail if you have any question or find a bug about this tool. Thank you^_^
-Email: wsslearning@omicsolution.com
+Email: wsslearning@omicsolution.com.
 
