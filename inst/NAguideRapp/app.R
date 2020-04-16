@@ -625,7 +625,7 @@ ui<-renderUI(
                     6,
                     panel(
                       "",
-                      checkboxInput("micenormif", "Using mice-norm method or not?",TRUE),
+                      checkboxInput("micenormif", "Using mice-norm method or not?",FALSE),
                       heading = "Method 18: Multiple imputation bayesian linear regression (mice-norm)",
                       status = "success",
                       footer = a(href="https://doi.org/10.18637/jss.v045.i03",h6("DOI: 10.18637/jss.v045.i03"),target="_blank")
