@@ -1,4 +1,4 @@
-#' NAguideR: performing and prioritizing missing value imputations for data independent acquisition analyses.
+#' NAguideR: performing and prioritizing missing value imputations for consistent bottom-up proteomic analyses.
 #'
 #'
 #' @docType package
