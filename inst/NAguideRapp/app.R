@@ -31,28 +31,11 @@ ui<-renderUI(
             </div>"
         )
       )
-      #column(6,div(
-      #  HTML(
-      #    "<div style='text-align:right;margin-top:20px;margin-right:0px'>
-      #    <a href='#' target=''><img src='imputeRti.png' width='100px'>
-      #    </a>
-      #    </div>"
-      #  )
-      #  )),
-      #column(6,div(
-      #  HTML(
-      #    "<div style='text-align:left;margin-left:-20px'>
-      #    <a href='#' target=''><img src='motifeRlogo.png' height='80px'>
-      #    </a>
-      #    </div>"
-      #  )
-      #  ))
     ),
     tagList(
       tags$head(
         tags$link(rel="stylesheet", type="text/css",href="busystyle.css"),
         tags$script(type="text/javascript", src = "busy.js"),
-        #tags$style(type="text/css","#methodids{margin-left:2%;margin-right:2%}"),
         tags$style(type="text/css", "
                            #loadmessage {
                      position: fixed;
@@ -94,7 +77,7 @@ ui<-renderUI(
       width:300px;
       z-index:5;
 		}
-                   "),#F5F5DC
+                   "),
         tags$style(type="text/css", "
                    #tooltip2 {
 			position: absolute;
