@@ -3391,7 +3391,7 @@ server<-shinyServer(function(input, output, session){
             HTML("Possible solutions:<br />"),
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
-            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proper results, please choose more complex methods;<br />"),
             HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else if(input$datatypex==3){
@@ -3413,7 +3413,7 @@ server<-shinyServer(function(input, output, session){
             HTML("Possible solutions:<br />"),
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
-            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proper results, please choose more complex methods;<br />"),
             HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else if(input$datatypex==4){
@@ -3433,7 +3433,7 @@ server<-shinyServer(function(input, output, session){
             HTML("Possible solutions:<br />"),
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
-            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proper results, please choose more complex methods;<br />"),
             HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }else{
@@ -3450,7 +3450,7 @@ server<-shinyServer(function(input, output, session){
             HTML("Possible solutions:<br />"),
             HTML("&nbsp;&nbsp;1. Please check the input data quality in the step 2;<br />"),
             HTML("&nbsp;&nbsp;2. Please check the normalization and logarithm parameters, your data may need to be normalized and logarithmic, or vice verse;<br />"),
-            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proprt results, please choose more complex methods;<br />"),
+            HTML("&nbsp;&nbsp;3. The imputation methods you choose may be incompetent to deduce the proper results, please choose more complex methods;<br />"),
             HTML("&nbsp;&nbsp;4. Please use targeted check for additional analysis. Even if no discriminative results were obtained, this does not mean the NA imputation method(s) failed. NAguideR just failed to provide a clear guidance."))
       }
     }
