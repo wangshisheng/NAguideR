@@ -1171,7 +1171,7 @@ server<-shinyServer(function(input, output, session){
         imgwidth<-600
       }
     }
-
+    
     fluidRow(
       #div(style="text-align:center",h1("~~Welcome~~")),
       div(
@@ -1195,6 +1195,10 @@ server<-shinyServer(function(input, output, session){
               HTML("After this, NAguideR can provide valuable guidance for users to select one proper method for their own data based on the evaluation results. Detailed introduction can be found in the <em><b>Help</b></em> part.<br />"),
               HTML("<br />"),
               HTML("Finally, NAguideR is developed by <a href='https://shiny.rstudio.com/' target='_blank'>R shiny (Version 1.3.2)</a>, and is free and open to all users with no login requirement. It can be readily accessed by all popular web browsers including Google Chrome, Mozilla Firefox, Safari and Internet Explorer 10 (or later), and so on. We would highly appreciate that if you could send your feedback about any bug or feature request to Shisheng Wang at <u>wsslearning@omicsolution.com</u>.")),
+          div(style="text-align:left;margin-top:30px;font-size:140%;color:black",
+              HTML("Citation:<br />")),
+          div(style="text-align:left;margin-top:0px;font-size:120%;",
+              HTML("&nbsp;&nbsp;Shisheng Wang, Wenxue Li, Liqiang Hu, Jingqiu Cheng, Hao Yang, Yansheng Liu, NAguideR: performing and prioritizing missing value imputations for consistent bottom-up proteomic analyses, Nucleic Acids Research, gkaa498, <a href='https://doi.org/10.1093/nar/gkaa498' target='_blank'>https://doi.org/10.1093/nar/gkaa498</a>.<br />")),
           div(style="text-align:center;margin-top:20px;font-size:140%;color:darkgreen",
               HTML("<br />"),
               HTML("^_^ <em>Enjoy yourself in NAguideR</em> ^_^")),
@@ -1334,7 +1338,7 @@ server<-shinyServer(function(input, output, session){
     }
     dataread
   })
-
+  
   output$peaksdata<-renderDataTable({
     library(data.table)
     aaxxc<-peaksdataout()
@@ -1344,14 +1348,14 @@ server<-shinyServer(function(input, output, session){
       datatable(examplepeakdatas(), options = list(pageLength = 10))
     }
   })
-
+  
   output$samplesdata<-renderDataTable({
     if(input$loaddatatype==1){
       samplesdf<-samplesdataout()
     }else{
       samplesdf<-examplesampledatas()
     }
-
+    
     if(input$loaddatatype==1){
       datatable(samplesdf, options = list(pageLength = 10))
     }else{
@@ -1391,7 +1395,7 @@ server<-shinyServer(function(input, output, session){
       rownames(dataread1x)<-rowpaste[!duplicated(rowpaste)]
       nadatax<-dataread1x
     }
-
+    
     nadatax[nadatax==input$natype]<-NA
     nadatax[] <- lapply(nadatax, function(x) as.numeric(as.character(x)))
     nadatax
@@ -1483,7 +1487,7 @@ server<-shinyServer(function(input, output, session){
           dev.off()
         }
       )
-
+      
     }
   )
   #
@@ -1528,7 +1532,7 @@ server<-shinyServer(function(input, output, session){
     if(input$logif){
       datadfchuli<-log2(datadfchuli)
     }
-
+    
     list(datadfchuli=datadfchuli,datadfchuli_nonorm=datadfchulix)
   })
   cvfilterdataout<-reactive({
@@ -1575,7 +1579,7 @@ server<-shinyServer(function(input, output, session){
     dfx<-dfx[!complete.cases(dfx),]
     dfx
   })
-
+  
   observeEvent(
     input$mcsbtn_nafilter,{
       shinyjs::show(id = "mcsbtn_nafilter_hid", anim = FALSE)
@@ -2255,7 +2259,7 @@ server<-shinyServer(function(input, output, session){
     namethodsoutx<-tolower(na.omit(namethodsout()))
     suijinadatadfx<-suijidataout()$suijinadatadf
     suijidatajieguo<-suijidataimputeout()
-
+    
     pepchargefunc<-function(datalist,nadata,rownamesx,namethods){
       accpcresoutx<-vector()
       accpclist<-accpclist_before<-list()
@@ -2286,11 +2290,11 @@ server<-shinyServer(function(input, output, session){
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_charges=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_charges_before=corval_youna)
-
+          
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
-
+      
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_Charge=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2325,15 +2329,15 @@ server<-shinyServer(function(input, output, session){
                            incProgress(1, detail = "processing...")
                          }
                        })
-
+          
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_peppro=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_peppro_before=corval_youna)
-
+          
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
-
+      
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_peppro=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2371,7 +2375,7 @@ server<-shinyServer(function(input, output, session){
                            incProgress(1, detail = "processing...")
                          }
                        })
-
+          
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_procomplex=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_procomplex_before=corval_youna)
@@ -2415,14 +2419,14 @@ server<-shinyServer(function(input, output, session){
               incProgress(1/length(cornona_names), detail = "processing...")
             }
           })
-
+          
           accpcresoutx[ii]<-mean(corval_nona)#sum(corval_nona)
           accpclist[[ii]]<-data.frame(Cor_procomplex=corval_nona)
           accpclist_before[[ii]]<-data.frame(Cor_procomplex_before=corval_youna)
           incProgress(1/length(namethods), detail = paste(namethods[ii],"processing..."))
         }
       })
-
+      
       names(accpclist)<-namethods
       names(accpclist_before)<-namethods
       accpcresdf<-data.frame(Methods=namethods,ACC_PPI=round(accpcresoutx,digits=5),stringsAsFactors = FALSE)
@@ -2430,8 +2434,8 @@ server<-shinyServer(function(input, output, session){
       rownames(accpcresdf)<-paste0("Method ",rownames(accpcresdf))
       list(prohumapresdf=accpcresdf,prohumaplist_before=accpclist_before,prohumaplist=accpclist)
     }
-
-
+    
+    
     if(input$datatypex==1){
       proassesslist<-pepchargefunc(datalist=suijidatajieguo,nadata=suijinadatadfx,
                                    rownamesx=rownames(suijinadatadfx),namethods=namethodsoutx)
@@ -2550,7 +2554,7 @@ server<-shinyServer(function(input, output, session){
     }
     rankdf1[order(rankdf1$Rank_Mean),]
   })
-
+  
   observeEvent(
     input$mcsbtn_imputationpro,{
       shinyjs::show(id = "mcsbtn_imputationpro_hid", anim = FALSE)
@@ -2569,7 +2573,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$accpclist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2593,7 +2597,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$accpclist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2645,7 +2649,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$pepprolist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2669,7 +2673,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$pepprolist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2711,7 +2715,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2735,7 +2739,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2777,7 +2781,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2801,7 +2805,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2853,7 +2857,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$accpclist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2877,7 +2881,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$accpclist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2919,7 +2923,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$pepprolist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2943,7 +2947,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$pepprolist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -2986,7 +2990,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3010,7 +3014,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3053,7 +3057,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3077,7 +3081,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3153,7 +3157,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3177,7 +3181,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$procomplexlist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3219,7 +3223,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3243,7 +3247,7 @@ server<-shinyServer(function(input, output, session){
         accpchist<-proassessout()$prohumaplist[[namethodsx]]
         accpchistdf<-data.frame(Groups=rep(c("Before","After"),c(nrow(accpchist_before),nrow(accpchist))),
                                 Values=c(accpchist_before[[1]],accpchist[[1]]),stringsAsFactors = FALSE)
-
+        
         mudf <- plyr::ddply(accpchistdf, "Groups", summarise, grp.mean=median(Values))
         mudf$grp.mean<-round(mudf$grp.mean,3)
         ggplot(accpchistdf, aes(x=Values, color=Groups, fill=Groups)) +
@@ -3455,7 +3459,7 @@ server<-shinyServer(function(input, output, session){
       }
     }
   })
-
+  
   observeEvent(
     input$mcsbtn_targettext,{
       shinyjs::show(id = "mcsbtn_targettext_hid", anim = FALSE)
@@ -3663,7 +3667,7 @@ server<-shinyServer(function(input, output, session){
       )
     }
   )
-
+  
 })
 
 shinyApp(ui = ui, server = server)
