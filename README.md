@@ -5,7 +5,7 @@ NAguideR: performing and prioritizing missing value imputations for consistent b
 **<font size='5'> NAguideR </font>** is a web-based tool, which integrates 23 common missing value imputation methods and provides two categories of evaluation criteria (4 classic criteria and 4 proteomic criteria) to assess the imputation performance of various methods. We hope this tool could help scientists impute the missing values systematically and present valuable guidance to select one proper method for their own data. In addition, this tool supports both online access and local installation. The online version can be linked from here: [https://www.omicsolution.org/wukong/NAguideR](https://www.omicsolution.org/wukong/NAguideR).
 
 ## Citation
-**<font size='5'> NAguideR </font>** has been published in [Nucleic Acids Research](https://academic.oup.com/nar). If you use this software to analyze your own data, please cite it as below:
+**<font size='5'> NAguideR </font>** has been published in [Nucleic Acids Research](https://academic.oup.com/nar). If you use this software to analyze your own data, please cite it as below, thanks:
 
 Shisheng Wang, Wenxue Li, Liqiang Hu, Jingqiu Cheng, Hao Yang, Yansheng Liu, NAguideR: performing and prioritizing missing value imputations for consistent bottom-up proteomic analyses, Nucleic Acids Research, gkaa498, [https://doi.org/10.1093/nar/gkaa498](https://doi.org/10.1093/nar/gkaa498).
 
