@@ -1554,10 +1554,10 @@ server<-shinyServer(function(input, output, session){
     for(i in 1:length(grnames)){
       datai<-dfx[,samplesdf$Groups==grnames[i]]
       cvi<-apply(datai,1,function(x){
-        if(all(as.numeric(x)==0)){
+        if(all(as.numeric(x)==0)|is.na(all(as.numeric(x)==0))){
           0
         }else{
-          raster::cv(as.numeric(x),na.rm = TRUE)
+          raster::cv(as.numeric(x),na.rm = TRUE,aszero=TRUE)
         }
       })
       cvdf<-cbind(cvdf,cvi)
