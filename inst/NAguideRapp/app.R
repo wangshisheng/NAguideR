@@ -1815,7 +1815,7 @@ server<-shinyServer(function(input, output, session){
     }
     else if(method=="rf"){
       library(missForest)
-      data_zero1 <- missForest(t(df1), maxiter =10,ntree = input$rfntrees,mtry=floor(row(df1)^(1/3)),verbose = TRUE)
+      data_zero1 <- missForest(t(df1), maxiter =10,ntree = input$rfntrees,mtry=floor(nrow(df1)^(1/3)),verbose = TRUE)
       df<-t(data_zero1$ximp)
     }
     else if(method=="pi"){
