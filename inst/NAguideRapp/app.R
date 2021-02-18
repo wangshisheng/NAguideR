@@ -1722,7 +1722,7 @@ server<-shinyServer(function(input, output, session){
     }
     else if(method=="knnmethod"){
       library(impute)
-      data_zero1<-impute.knn(as.matrix(df1),k = 10, rowmax = 0.9, colmax = 0.9)
+      data_zero1<-impute.knn(as.matrix(df1),k = 10, rowmax = 1, colmax = 1)#rowmax = 0.9, colmax = 0.9
       df<-data_zero1$data
     }
     else if(method=="seqknn"){
