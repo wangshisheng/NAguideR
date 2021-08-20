@@ -272,7 +272,7 @@ ui<-renderUI(
             bsTooltip("logif",'If true, the values in expression matrix will be log-transformed with base 2.',
                       placement = "right",options = list(container = "body")),
             numericInput('cvyuzhi', h5('6. CV threshold (raw scale):'), 0.3,max = 1,min = 0,step = 0.1),
-            bsTooltip("cvyuzhi",'The threshold of coefficient of variation (CV). One protein/peptide with CV above this threshold will be removed. "raw scale" here means the values without log-transformation are used to calculate the CV.',
+            bsTooltip("cvyuzhi",'The threshold of coefficient of variation (CV). One protein/peptide with CV above this threshold will be removed. "raw scale" here means the values without log-transformation are used to calculate the CV. Please note, if the value here is above 1, this means NAguideR will ignore this parameter and switch off the CV filtering.',
                       placement = "right",options = list(container = "body")),
             tags$hr(style="border-color: grey;"),
             numericInput("preheight",h5("Height for figure:"),value = 900)
