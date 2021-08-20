@@ -1504,7 +1504,7 @@ server<-shinyServer(function(input, output, session){
       nastatsdf<-NULL
       nastatsdf0<-NULL
       for(i in 1:length(grnames)){
-        dataindex<-datadf[,grdfx[[2]]==grnames[i]]
+        dataindex<-datadf[,grdfx[[2]]==grnames[i],drop=FALSE]
         narowsumix<-apply(dataindex,1,function(x){sum(is.na(x))})==ncol(dataindex)
         narowsumi<-apply(dataindex,1,function(x){sum(is.na(x))})/ncol(dataindex)
         dataindex1<-data.frame(nabili=narowsumi<=naratiox)
@@ -1552,7 +1552,7 @@ server<-shinyServer(function(input, output, session){
     grnames<-unique(samplesdf$Groups)
     cvdf<-cvifdf<-NULL
     for(i in 1:length(grnames)){
-      datai<-dfx[,samplesdf$Groups==grnames[i]]
+      datai<-dfx[,samplesdf$Groups==grnames[i],drop=FALSE]
       cvi<-apply(datai,1,function(x){
         if(all(as.numeric(x)==0)|is.na(all(as.numeric(x)==0))){
           0
