@@ -1,7 +1,7 @@
 Package: NAguideR
 Type: Package
 Title: NAguideR: performing and prioritizing missing value imputations for data independent acquisition analyses
-Version: 0.2.0
+Version: 0.2.1
 Author: Shisheng Wang
 Maintainer: Shisheng Wang <wsslearning@omicsolution.com>
 Description: NAguideR integrates up to 23 common missing value imputation methods (described in Table S1) and provides two categories of evaluation criteria (four classic computational criteria and four common knowledge-based proteomics criteria) to assess the imputation performance of various methods. Here we present the detailed introduction and operation of NAguideR, users can follow this manuscript to analyze their own data freely and conveniently.
